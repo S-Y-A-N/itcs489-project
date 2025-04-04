@@ -1,0 +1,1 @@
+[Favicon created by bqlqn - Flaticon](https://www.flaticon.com/free-icons/buy)

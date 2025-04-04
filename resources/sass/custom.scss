@@ -1,0 +1,22 @@
+// Variable overrides
+$primary: rgb(123, 68, 211);
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+// Custom
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+@include media-breakpoint-down(lg) { 
+  .carousel-item {
+    height: 300px;
+  }
+
+  .carousel img {
+    height: 100%;
+    object-fit: cover;
+  }
+}
