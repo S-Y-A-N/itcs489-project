@@ -1,7 +1,36 @@
+<br />
+
+<div align="center">
+  
+  <img src="storage/app/public/logo.png" alt="Logo" width="80" height="80">
+
+  <h3 align="center">Online Shopping System</h3>
+
+  <p align="center">
+    Web-based online shopping system following the MVC architechture.
+    <br />
+    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Live Preview »</strong></a>
+    <br />
+    <br />
+
+  </p>
+</div>
+
+
+
+## Built with
+
+* [![Laravel][Laravel.com]][Laravel-url]
+* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
+
+
 ## Attribution
+
 [Favicon created by bqlqn - Flaticon](https://www.flaticon.com/free-icons/buy)
 
-## Required Installations
+
+## Getting Started
+
 1- Clone the repository.
 ```
 git clone https://github.com/S-Y-A-N/itcs489-project.git
@@ -9,13 +38,16 @@ git clone https://github.com/S-Y-A-N/itcs489-project.git
 
 2- Install nvm to install node and npm.
 - nvm:
+
     - [Windows](https://github.com/coreybutler/nvm-windows?tab=readme-ov-file#nvm-for-windows)
+
     - [Mac/Linux](https://github.com/nvm-sh/nvm?tab=readme-ov-file#install--update-script)
 
 - node and npm: (Terminal as administrator)
 ```
 nvm install latest
 ```
+
 ```
 npm install -g npm
 ```
@@ -31,7 +63,9 @@ composer update
 composer install
 ```
 
-5- Laravel Sail
+5- [Install Docker](https://www.docker.com/products/docker-desktop/) and Laravel Sail
+
+Laraval Sail already exists in the project vendor folder. How to run it:
 
 **Mac/Linux:**
 
@@ -42,13 +76,15 @@ alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 
 Now you can run the project locally:
 ```
-sail up -d
+sail up -d # or ./vendor/bin/sail up -d
 
 npm run dev
 ```
 
 **Windows:**
 
-1- Install WSL2 and Ubuntu from Microsoft Store.
+You can only run Sail in WSL.
+
+1- Install WSL and Ubuntu from Microsoft Store.
 
 2- Enable "Windows Subsystem for Linux" in Windows Features and reboot.
