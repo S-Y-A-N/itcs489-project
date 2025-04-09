@@ -17,3 +17,5 @@
 
 <!-- Custom CSS -->
 @vite(['resources/js/app.js'])
+
+@vite(['resources/scss/app.scss'])
