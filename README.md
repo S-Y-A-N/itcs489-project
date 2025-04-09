@@ -32,20 +32,15 @@
 ![SASS](https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white)
 
 
-
-## Attribution
-
-[Favicon created by bqlqn - Flaticon](https://www.flaticon.com/free-icons/buy)
-
 ## Getting Started
 
 ### Prerequisites
 
 This section references [Laravel docs](https://laravel.com/docs/12.x/installation#creating-a-laravel-project).
 
-To run the local development environment using Laravel Sail, you need PHP, Composer, and the Laravel installer installed.
+To run the local development environment using Laravel Sail, you need PHP, Composer, and the Laravel installer installed. **[Run the installation command of your OS.](https://laravel.com/docs/12.x/installation#installing-php)**
 
-**[Run the installation command of your OS.](https://laravel.com/docs/12.x/installation#installing-php)**
+You will also need Docker installed to use Laravel Sail.
 
 **Important:** If you use Windows, you need [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) installed.
 
@@ -54,7 +49,7 @@ To run the local development environment using Laravel Sail, you need PHP, Compo
 
 1- Clone the repository
 
-- In Windows, it is recommended that you clone inside WSL (e.g. from the Ubuntu terminal).
+- In Windows, it is recommended that you clone inside WSL (e.g. from the Ubuntu terminal) for better performance.
 ```sh
 git clone https://github.com/S-Y-A-N/itcs489-project.git
 ```
@@ -100,8 +95,7 @@ Now you can run:
 sail up
 ```
 
-### VS Code Recommended Extentions
-- Docker
-- Dev Containers
-- Bootstrap IntelliSense
-- ...
+
+## Attribution
+
+[Favicon created by bqlqn - Flaticon](https://www.flaticon.com/free-icons/buy)
