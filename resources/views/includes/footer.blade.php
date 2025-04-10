@@ -49,22 +49,19 @@
             <div class="col-6 col-md-2 mb-3">
                 <h6>Helpful Links</h6>
                 <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
+                    <li class="nav-item mb-2"><a href="/faq" class="nav-link p-0 text-body-secondary">FAQ</a></li>
+                    <li class="nav-item mb-2"><a href="/return-policy" class="nav-link p-0 text-body-secondary">Return Policy</a></li>
+                    <li class="nav-item mb-2"><a href="/sellers" class="nav-link p-0 text-body-secondary">Sellers</a></li>
+                    <li class="nav-item mb-2"><a href="/sell-with-us" class="nav-link p-0 text-body-secondary">Sell With Us</a></li>
                 </ul>
             </div>
 
             <div class="col-6 col-md-2 mb-3">
                 <h6>Company</h6>
                 <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About Us</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Our Team</a></li>
+                    <li class="nav-item mb-2"><a href="/contact" class="nav-link p-0 text-body-secondary">Contact Us</a></li>
                 </ul>
             </div>
 
