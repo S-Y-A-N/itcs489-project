@@ -10,7 +10,7 @@
                     Need Help?
                 </p>
                 <p>
-                    <a href="" class="fw-bold">Reach out to us</a> on any of our support channels
+                    <a href="/contact" class="fw-bold">Reach out to us</a> on any of our support channels
                 </p>
             </div>
             <!-- Conatct icon links -->
@@ -21,13 +21,13 @@
                         <p class="m-0 fw-bold">Feedback</p>
                         <p class="m-0">Send us suggestions</p>
                     </div>
-                    <a href="/feedback" class="stretched-link"></a>
+                    <a href="/contact" class="stretched-link"></a>
                 </div>
                 <div class="d-flex align-items-center justify-content-center gap-2 position-relative">
                     <i class="bi bi-telephone-fill h1 mt-2"></i>
                     <div class="d-flex flex-column m-0 p-0">
                         <p class="m-0 fw-bold">Get in Touch</p>
-                        <p class="m-0">+973 1000 0000</p>
+                        <p class="m-0">+973 1000 1000</p>
                     </div>
                     <a href="tel:+973 1000 1000" class="stretched-link"></a>
                 </div>
@@ -37,7 +37,7 @@
                         <p class="m-0 fw-bold">Email us</p>
                         <p class="m-0">support@cheapy.com</p>
                     </div>
-                    <a href="" class="stretched-link"></a>
+                    <a href="mailto:support@cheapy.com" class="stretched-link"></a>
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
         <hr>
 
         <div class="row mt-5 flex-wrap">
-            <div class="col-6 col-md-2 mb-3">
+            <div class="col mb-3">
                 <h6>Helpful Links</h6>
                 <ul class="nav flex-column">
                     <li class="nav-item mb-2"><a href="/faq" class="nav-link p-0 text-body-secondary">FAQ</a></li>
@@ -56,16 +56,16 @@
                 </ul>
             </div>
 
-            <div class="col-6 col-md-2 mb-3">
+            <div class="col mb-3">
                 <h6>Company</h6>
                 <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About Us</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Our Team</a></li>
+                    <li class="nav-item mb-2"><a href="/about" class="nav-link p-0 text-body-secondary">About Us</a></li>
+                    <li class="nav-item mb-2"><a href="/team" class="nav-link p-0 text-body-secondary">Our Team</a></li>
                     <li class="nav-item mb-2"><a href="/contact" class="nav-link p-0 text-body-secondary">Contact Us</a></li>
                 </ul>
             </div>
 
-            <div class="col-6 col-md-2 mb-3">
+            <div class="col mb-3">
                 <h6>Payment</h6>
                 <ul class="nav flex-column">
                     <li class="nav-item mb-2">
@@ -83,7 +83,7 @@
                 </ul>
             </div>
 
-            <div class="col-6 col-md-2 mb-3">
+            <div class="col mb-3">
                 <h6>Social</h6>
                 <ul class="nav flex-column">
                     <li class="nav-item mb-2">
@@ -135,7 +135,7 @@
                 @include('includes.brand', ['font_size'=> 6, 'logo_size' => 20])
             </div>
             <p class="m-0">Copyright © 2025 Cheapy - All Rights Reserved</p>
-            <p class="text-secondary m-0"><a href="" class="link-secondary">Terms and Conditionas</a> | <a href="" class="link-secondary">Privacy Policy</a></p>
+            <p class="text-secondary m-0"><a href="/terms-and-conditions" class="link-secondary">Terms and Conditionas</a> | <a href="/privacy-policy" class="link-secondary">Privacy Policy</a></p>
 
         </div>
     </footer>
