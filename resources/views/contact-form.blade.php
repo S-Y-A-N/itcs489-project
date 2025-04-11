@@ -33,7 +33,7 @@
 
             <div class="form-floating mb-2 col">
                 <input type="phone" name="phone" class="form-control" id="phone" placeholder="+973 1000 1000">
-                <label for="phone">Phone Number (Optional)</label>
+                <label for="phone">Phone Number *</label>
             </div>
 
             <div class="form-floating mb-2">

@@ -85,16 +85,16 @@
           <div>
             <ul class="nav d-flex justify-content-center">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Offers</a>
+                <a class="nav-link active" aria-current="page" href="/offers">Offers</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Brands</a>
+                <a class="nav-link" href="/brands">Brands</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Cheapy Member</a>
+                <a class="nav-link" href="/membership">Cheapy Member</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link">Customer Service</a>
+                <a class="nav-link" href="/contact">Customer Service</a>
               </li>
             </ul>
           </div>
