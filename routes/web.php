@@ -2,7 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Main Pages
 Route::view('/', 'home');
+Route::view('/login', 'login');
+Route::view('/register', 'register');
 
 // Header Links
 Route::view('/brands', 'brands');
