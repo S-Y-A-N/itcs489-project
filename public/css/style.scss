@@ -1,0 +1,47 @@
+// Bootstrap Variable Overrides
+
+$primary: rgb(123, 68, 211);
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+// Custom
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.categories-nav {
+  width: fit-content;
+}
+
+
+.social-icon::before {
+  width: 50 !important;
+}
+
+.bi-github:has(.social-icon):before:hover {
+  --bs-nav-link-hover-color: #171516;
+  color:  var(--bs-nav-link-hover-color);
+}
+
+:root[data-bs-theme="light"] {
+  --bs-btn-hover-color: #000000;
+
+  .btn:hover {
+    color: var(--bs-btn-hover-color) !important;
+  }
+}
+
+// Media Queries
+
+@include media-breakpoint-down(lg) { 
+  .carousel-item {
+    height: 300px;
+  }
+
+  .carousel img {
+    height: 100%;
+    object-fit: cover;
+  }
+}
