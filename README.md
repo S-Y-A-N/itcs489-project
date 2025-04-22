@@ -2,7 +2,7 @@
 
 <div align="center">
   
-  <img src="storage/app/public/logo.png" alt="Logo" width="80" height="80">
+  <img src="public/images/logo.png" alt="Logo" width="80" height="80">
 
   <h3 align="center">Online Shopping System</h3>
 
