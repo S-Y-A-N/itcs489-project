@@ -5,23 +5,8 @@
 namespace Core;
 
 class Validator {
-  protected static function email($value) {
+  public static function email($value) {
     return filter_var($value, FILTER_VALIDATE_EMAIL);
-  }
-
-  public static function uob_email($value) {
-
-    // 1- validate that it is an email
-    if (Validator::email($value)) {
-
-      // 2- validate that it is a UOB email
-      $pattern = '/(^\w*@stu\.uob\.edu\.bh$)|(^\w*@uob\.edu\.bh$)/';
-
-      return preg_match($pattern, $value) ? true : false;
-    }
-
-    return false;
-
   }
 
   public static function password_strong($value) {

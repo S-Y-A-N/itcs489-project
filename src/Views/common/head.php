@@ -15,5 +15,10 @@
 <!-- Bootstarp Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-<script src="js/main.js" defer></script>
+<!-- International Telephone Input -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/css/intlTelInput.css">
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
+
+<!-- My CSS and JS -->
+<script src="js/main.js" type="module" defer></script>
 <link rel="stylesheet" href="css/style.css">

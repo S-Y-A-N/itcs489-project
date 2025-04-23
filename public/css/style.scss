@@ -22,9 +22,10 @@ $primary: rgb(123, 68, 211);
 
 .bi-github:has(.social-icon):before:hover {
   --bs-nav-link-hover-color: #171516;
-  color:  var(--bs-nav-link-hover-color);
+  color: var(--bs-nav-link-hover-color);
 }
 
+// Light Theme specific styles
 :root[data-bs-theme="light"] {
   --bs-btn-hover-color: #000000;
 
@@ -33,9 +34,22 @@ $primary: rgb(123, 68, 211);
   }
 }
 
+// Dark Theme specific styles
+:root[data-bs-theme="dark"] {
+  .iti {
+    --iti-border-color: #5b5b5b;
+    --iti-dialcode-color: #999999;
+    --iti-dropdown-bg: #0d1117;
+    --iti-arrow-color: #aaaaaa;
+    --iti-hover-color: #30363d;
+    --iti-path-globe-1x: url("path/to/globe_light.webp");
+    --iti-path-globe-2x: url("path/to/globe_light@2x.webp");
+  }
+}
+
 // Media Queries
 
-@include media-breakpoint-down(lg) { 
+@include media-breakpoint-down(lg) {
   .carousel-item {
     height: 300px;
   }
@@ -44,4 +58,11 @@ $primary: rgb(123, 68, 211);
     height: 100%;
     object-fit: cover;
   }
+}
+
+
+// For telephone country code
+.iti {
+  width: 100%;
+  z-index: 100;
 }

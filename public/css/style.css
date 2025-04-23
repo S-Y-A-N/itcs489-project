@@ -11996,6 +11996,16 @@ textarea.form-control-lg {
   color: var(--bs-btn-hover-color) !important;
 }
 
+:root[data-bs-theme=dark] .iti {
+  --iti-border-color: #5b5b5b;
+  --iti-dialcode-color: #999999;
+  --iti-dropdown-bg: #0d1117;
+  --iti-arrow-color: #aaaaaa;
+  --iti-hover-color: #30363d;
+  --iti-path-globe-1x: url("path/to/globe_light.webp");
+  --iti-path-globe-2x: url("path/to/globe_light@2x.webp");
+}
+
 @media (max-width: 991.98px) {
   .carousel-item {
     height: 300px;
@@ -12005,4 +12015,8 @@ textarea.form-control-lg {
     -o-object-fit: cover;
        object-fit: cover;
   }
+}
+.iti {
+  width: 100%;
+  z-index: 100;
 }/*# sourceMappingURL=style.css.map */

@@ -1,1 +1,2 @@
-import 'theme';
+import './theme.js';
+import './form-validation.js'
