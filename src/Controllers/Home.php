@@ -20,4 +20,4 @@ class Home extends \Core\Controller
 
 }
 
-$home = new Home();
+$controller = new Home();

@@ -1,4 +1,5 @@
 @charset "UTF-8";
+/************************ Bootstrap ************************/
 /*!
  * Bootstrap  v5.3.5 (https://getbootstrap.com/)
  * Copyright 2011-2025 The Bootstrap Authors
@@ -3108,7 +3109,7 @@ textarea.form-control-lg {
   --bs-btn-disabled-border-color: #dc3545;
 }
 
-.btn-light {
+.btn-light, :root[data-bs-theme=dark] button#login-switch {
   --bs-btn-color: #000;
   --bs-btn-bg: #f8f9fa;
   --bs-btn-border-color: #f8f9fa;
@@ -3125,7 +3126,7 @@ textarea.form-control-lg {
   --bs-btn-disabled-border-color: #f8f9fa;
 }
 
-.btn-dark {
+.btn-dark, :root[data-bs-theme=light] button#login-switch {
   --bs-btn-color: #fff;
   --bs-btn-bg: #212529;
   --bs-btn-border-color: #212529;
@@ -11970,6 +11971,7 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+/******************** Our Custom Styles ********************/
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -11995,7 +11997,6 @@ textarea.form-control-lg {
 :root[data-bs-theme=light] .btn:hover {
   color: var(--bs-btn-hover-color) !important;
 }
-
 :root[data-bs-theme=dark] .iti {
   --iti-border-color: #5b5b5b;
   --iti-dialcode-color: #999999;
@@ -12005,7 +12006,6 @@ textarea.form-control-lg {
   --iti-path-globe-1x: url("path/to/globe_light.webp");
   --iti-path-globe-2x: url("path/to/globe_light@2x.webp");
 }
-
 @media (max-width: 991.98px) {
   .carousel-item {
     height: 300px;

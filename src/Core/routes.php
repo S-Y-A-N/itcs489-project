@@ -3,6 +3,10 @@
 // Main Pages
 $router->get('/', 'Home');
 
-// Registr
+// Register
 $router->get('/register', 'Register');
 $router->post('/register', 'Register');
+
+// Login
+$router->get('/login', 'Login');
+$router->post('/login', 'Login');

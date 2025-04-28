@@ -4,16 +4,16 @@ namespace Controllers;
 
 use Core\Validator;
 
-class Register extends \Core\Controller
+class Login extends \Core\Controller
 {
-  private $view = 'register';
+  private $view = 'login';
   private $errors = [];
 
   public function __construct()
   {
 
-    if (Validator::post('register')) {
-      $this->register();
+    if (Validator::post('login')) {
+      $this->login();
     }
       $this->index();
     
@@ -26,11 +26,8 @@ class Register extends \Core\Controller
     ]);
   }
 
-  private function register() {
-    $user = new \Models\User();
-    $user->create();
-    $this->errors = $user->errors;
-    $this->index();
+  private function login() {
+    // login via User model, authentication important!
   }
 
 }
@@ -41,4 +38,4 @@ if (isset($_SESSION['email'])) {
   exit;
 }
 
-$controller = new Register();
+$controller = new Login();

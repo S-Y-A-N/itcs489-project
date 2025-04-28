@@ -1,11 +1,11 @@
-// Bootstrap Variable Overrides
+/************************ Bootstrap ************************/
 
 $primary: rgb(123, 68, 211);
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
-// Custom
 
+/******************** Our Custom Styles ********************/
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -32,6 +32,10 @@ $primary: rgb(123, 68, 211);
   .btn:hover {
     color: var(--bs-btn-hover-color) !important;
   }
+
+  button#login-switch {
+    @extend .btn-dark;
+  }
 }
 
 // Dark Theme specific styles
@@ -44,6 +48,10 @@ $primary: rgb(123, 68, 211);
     --iti-hover-color: #30363d;
     --iti-path-globe-1x: url("path/to/globe_light.webp");
     --iti-path-globe-2x: url("path/to/globe_light@2x.webp");
+  }
+
+  button#login-switch {
+    @extend .btn-light;
   }
 }
 
