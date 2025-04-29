@@ -31,18 +31,16 @@ class Login extends \Core\Controller
     $login_type = $_POST['email'] != "" ? 'email' : 'phone';
     $user = $model->get_user_with_credentials($login_type, $_POST[$login_type], $_POST['password']);
     $this->errors = $model->errors;
-    if ($user) $this->create_session($user);
+    if ($user)
+      $this->create_session($user);
     $this->index();
   }
 
-  private function create_session($user) {
-    $_SESSION['email'] = $user['email'];
-    $_SESSION['phone'] = $user['phone'];
-    $_SESSION['persistent'] = isset($_POST['keepLogin']);
-
+  private function create_session($user)
+  {
+    $_SESSION['user_id'] = $user['user_id'];
     header('Location: /');
   }
-
 }
 
 $controller = new Login();

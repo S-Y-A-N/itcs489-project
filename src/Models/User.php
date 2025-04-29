@@ -16,7 +16,7 @@ class User extends \Core\Model
       exit;
     }
 
-    $query = $this->db->query("SELECT email, phone, password FROM users WHERE $login_type = :identifier", [
+    $query = $this->db->query("SELECT user_id, password FROM users WHERE $login_type = :identifier", [
       'identifier' => $identifier
     ]);
 
@@ -42,6 +42,16 @@ class User extends \Core\Model
     }
 
 
+  }
+
+  public function set_token($user, $token) {
+    $query = $this->db->query('SELECT email FROM users WHERE email = :email', [
+      'email' => $user['email']
+    ]);
+
+    if ($query->rowCount === 1) {
+      $db_user = $query->fetch();
+    }
   }
 
   // create new user

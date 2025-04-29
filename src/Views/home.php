@@ -42,20 +42,18 @@
   <div class="container">
     <div class="grid gap-2">
 
-    <?php for ($i = 0; $i < 8; $i++): ?>
-      <div class="col card p-0 flex-fill">
-        <img class="card-img-top w-100" src="https://placehold.co/60x40/fffbcf/d4a900?text=Product" alt="Title" />
-        <div class="card-body">
-          <h6 class="card-title mb-4">Item Name</h6>
-          <p class="card-subtitle"><s>BHD 99.99</s></p>
-          <p class="card-subtitle lead">BHD 99.99</p>
-          <p class="card-subtitle mt-2"><a href="">Brand Name</a></p>
-          <a href="" class="stretched-link"></a>
-        </div>
-    </div>
-    <?php endfor ?>
+      <?php foreach ($products as $p) : ?>
+        <?php render('common/product_card', [
+          'product_id' => $p['product_id'],
+          'product_name' => $p['name'],
+          'old_price' => $p['price'],
+          'new_price' => $p['new_price'],
+          'offer' => $p['offer'],
+          'brand_name' => $p['brand_name'],
+        ]); ?>
+      <?php endforeach; ?>
 
-  </div>
+    </div>
   </div>
 
 

@@ -14,35 +14,35 @@
 
           <!-- Search bar -->
           <div class="w-75">
-            <div class="input-group">
-              <span class="input-group-text bg-body border-end-0 border-secondary-subtle"><i
-                  class="bi bi-search"></i></span>
-              <input type="text" class="form-control border-start-0 border-secondary-subtle">
-              <button class="btn btn-outline-secondary bg-body border-start-0 border-secondary-subtle" type="button"
-                id="button-addon2"><i class="bi bi-camera-fill" aria-hidden="true"></i></button>
-
-            </div>
-
+            <form role="search" method="get" class="mb-0">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for any product" name="search">
+                <button class="btn btn-primary" type="submit" id="search-btn"><i
+                    class="bi bi-search"></i></button>
+              </div>
+            </form>
           </div>
 
           <!-- Theme toggle -->
-          <div>
-            <button type="button" class="btn border-0" data-bs-toggle="button" id="theme-btn">
-              <i class="bi" id="theme-icon"></i>
-            </button>
-          </div>
+          <div class="d-flex align-items-center">
+            <div>
+              <button type="button" class="btn border-0" data-bs-toggle="button" id="theme-btn">
+                <i class="bi" id="theme-icon"></i>
+              </button>
+            </div>
 
-          <!-- Login & Register -->
-          <?php if (isset($_SESSION['email']) || isset($_SESSION['phone'])): ?>
-            <div class="btn-group" role="group">
-              <a href="/logout" type="button" class="btn btn-outline-primary">Logout</a>
-            </div>
-          <?php else: ?>
-            <div class="btn-group" role="group">
-              <a href="/login" type="button" class="btn btn-outline-primary">Login</a>
-              <a href="/register" type="button" class="btn btn-outline-primary">Register</a>
-            </div>
-          <?php endif; ?>
+            <!-- Login & Register -->
+            <?php if (isset($_SESSION['user_id'])): ?>
+              <div class="btn-group" role="group">
+                <a href="/logout" type="button" class="btn btn-outline-primary">Logout</a>
+              </div>
+            <?php else: ?>
+              <div class="btn-group" role="group">
+                <a href="/login" type="button" class="btn btn-outline-primary">Login</a>
+                <a href="/register" type="button" class="btn btn-outline-primary">Register</a>
+              </div>
+            <?php endif; ?>
+          </div>
 
 
         </div>
@@ -65,7 +65,7 @@
                 <i class="bi bi-list h2 m-0"></i>
                 <p class="m-0">Shop by Categories</p>
               </div>
-              <a href="#" class="stretched-link"></a>
+              <button class="visually-hidden btn-link stretched-link"></button>
             </div>
           </div>
           <!-- 2- Categories menu -->
@@ -85,6 +85,7 @@
               </div>
 
               <div class="list-group">
+                <a href="products" class="list-group-item list-group-item-action">All</a>
                 <a href="electronics" class="list-group-item list-group-item-action">Electronics</a>
                 <a href="women" class="list-group-item list-group-item-action">Women Fashion</a>
                 <a href="men" class="list-group-item list-group-item-action">Men Fashion</a>
