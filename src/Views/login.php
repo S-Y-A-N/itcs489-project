@@ -12,46 +12,47 @@
 
 
   <div class="w-100">
-    <button type="button" id="login-switch" class="btn btn-sm w-100">
+    <p class="text-info-emphasis"><?= $errors['message'] ?? "" ?></p>
+    <p class="text-danger-emphasis"><?= $errors['error'] ?? "" ?></p>
+
+    <button type="button" id="login-switch" class="btn btn-sm w-100 mb-3">
       <i class="bi bi-phone me-2"></i>
       <span>Login with Phone</span>
     </button>
 
-    <p class="text-info-emphasis"><?= $errors['message'] ?? "" ?></p>
-    <p class="text-danger-emphasis"><?= $errors['email'] ?? "" ?></p>
-    <p class="text-danger-emphasis"><?= $errors['password'] ?? "" ?></p>
-
-    <form method="post" class="needs-validation mb-0" novalidate autocomplete="off">
+    <form method="post" class="mb-0">
       <!-- email -->
       <div class="form-floating mb-2 col">
         <input type="email" name="email" class="form-control" id="email" placeholder="someone@example.com" required>
         <label for="email">Email Address</label>
         <div class="invalid-feedback"></div>
       </div>
-      
+
       <!-- phone -->
-      <div class="mb-2 col visually-hidden">
-        <input type="tel" name="phone" class="form-control" id="phone" placeholder="" required>
+      <div class="mb-2 col d-none">
+        <input type="tel" class="form-control" id="phone" placeholder="">
         <div class="phone-feedback invalid-feedback" style="display: block"></div>
       </div>
 
       <!-- password -->
       <div class="form-floating mb-4 col">
-        <input type="password" pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[\W]).{8,40}" minlength="8" maxlength="40"
-          name="password" class="form-control" id="password" placeholder="" autocomplete="new-password" required>
+        <input type="password" name="password" class="form-control" id="login-password" placeholder="" required>
         <label for="password">Password</label>
         <div class="invalid-feedback"></div>
         <p class="mt-2"><a href="/reset-password">I forgot my password</a></p>
       </div>
-      <!-- agreement -->
+
+      <!-- keep login -->
       <div class="form-check mb-4">
-        <input class="form-check-input" type="checkbox" name="agreeOnTerms" id="agreeOnTerms" required>
+        <input class="form-check-input" type="checkbox" name="keepLogin" id="keepLogin">
         <label class="form-check-label" for="agreeOnTerms">
           Keep me logged in
         </label>
         <div class="invalid-feedback"></div>
       </div>
+
       <button type="submit" name="login" id="login" class="btn btn-primary w-100">Login</button>
+
     </form>
   </div>
 </div>
@@ -70,15 +71,18 @@
     // toggle correct icon
     loginSwitchIcon.classList.toggle('bi-envelope');
     loginSwitchIcon.classList.toggle('bi-phone');
-    email.parentElement.classList.toggle('visually-hidden');
-    phone.parentElement.parentElement.classList.toggle('visually-hidden');
-
+    email.parentElement.classList.toggle('d-none');
+    phone.parentElement.parentElement.classList.toggle('d-none');
+    email.toggleAttribute('required')
+    phone.toggleAttribute('required')
 
     // change text based on chosen icon
     if (loginSwitchIcon.classList.contains('bi-envelope')) {
       loginSwitchText.textContent = 'Login with Email';
+      phone.value = "";
     } else {
       loginSwitchText.textContent = 'Login with Phone';
+      email.value = "";
     }
   });
 

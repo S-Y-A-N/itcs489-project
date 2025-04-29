@@ -8,14 +8,51 @@ class User extends \Core\Model
 {
   public $errors = [];
 
+  // get existing user from db
+  public function get_user_with_credentials($login_type, $identifier, $password)
+  {
+    if ($login_type != 'email' && $login_type != 'phone') {
+      $this->errors['message'] = 'Invalid login method';
+      exit;
+    }
+
+    $query = $this->db->query("SELECT email, phone, password FROM users WHERE $login_type = :identifier", [
+      'identifier' => $identifier
+    ]);
+
+    // if email does not exist in db
+    if ($query->rowCount() === 0) {
+      $this->errors['error'] = 'You entered an invalid email or password';
+    } else {
+
+      // get user data from db
+      $user = $query->fetch();
+      $db_password = $user['password'];
+
+      // verify the entered password with hashed password
+      if (password_verify($password, $db_password)) {
+
+        // successful authentication
+        return $user;
+
+      } else {
+        $this->errors['message'] = 'You entered an invalid email or password';
+      }
+
+    }
+
+
+  }
+
+  // create new user
   public function create()
   {
     $emailQuery = $this->db->query('SELECT email FROM users WHERE email = :email', [
       'email' => $_POST['email']
     ]);
 
-    $phoneQuery = $this->db->query('SELECT phone_number FROM users WHERE phone_number = :phone_number', [
-      'phone_number' => $_POST['phone_full']
+    $phoneQuery = $this->db->query('SELECT phone FROM users WHERE phone = :phone', [
+      'phone' => $_POST['phone']
     ]);
 
     // if email or phone number already registered
@@ -24,7 +61,7 @@ class User extends \Core\Model
     } else {
 
       // if not agreed to terms & conditions
-      if (!isset($_POST['agreeOnTerms'])) {
+      if (!Validator::post('agreeOnTerms')) {
         $this->errors['terms'] = 'Not agreed to terms and conditions';
       }
 
@@ -48,9 +85,9 @@ class User extends \Core\Model
     if (empty($this->errors)) {
 
       // Insert user data into the db
-      $this->db->query('INSERT INTO users(email, phone_number, password, fname, lname) VALUES(:email, :phone_number, :password, :fname, :lname)', [
+      $this->db->query('INSERT INTO users(email, phone, password, fname, lname) VALUES(:email, :phone, :password, :fname, :lname)', [
         'email' => $_POST['email'],
-        'phone_number' => $_POST['phone_full'],
+        'phone' => $_POST['phone'],
         'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
         'fname' => $_POST['fname'],
         'lname' => $_POST['lname'],

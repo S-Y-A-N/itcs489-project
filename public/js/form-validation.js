@@ -167,7 +167,7 @@ if (phoneInput) {
     separateDialCode: true,
     strictMode: true,
     hiddenInput: (telInputName) => ({
-      phone: "phone_full",
+      phone: "phone",
     }),
     geoIpLookup: callback => {
       fetch("https://ipapi.co/json")

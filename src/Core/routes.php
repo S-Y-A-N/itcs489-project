@@ -10,3 +10,6 @@ $router->post('/register', 'Register');
 // Login
 $router->get('/login', 'Login');
 $router->post('/login', 'Login');
+
+// Logout
+$router->get('/logout', 'Logout');

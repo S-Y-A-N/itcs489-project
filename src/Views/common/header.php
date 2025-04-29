@@ -32,10 +32,17 @@
             </button>
           </div>
 
-          <div class="btn-group" role="group">
-            <a href="/login" type="button" class="btn btn-outline-primary">Login</a>
-            <a href="/register" type="button" class="btn btn-outline-primary">Register</a>
-          </div>
+          <!-- Login & Register -->
+          <?php if (isset($_SESSION['email']) || isset($_SESSION['phone'])): ?>
+            <div class="btn-group" role="group">
+              <a href="/logout" type="button" class="btn btn-outline-primary">Logout</a>
+            </div>
+          <?php else: ?>
+            <div class="btn-group" role="group">
+              <a href="/login" type="button" class="btn btn-outline-primary">Login</a>
+              <a href="/register" type="button" class="btn btn-outline-primary">Register</a>
+            </div>
+          <?php endif; ?>
 
 
         </div>

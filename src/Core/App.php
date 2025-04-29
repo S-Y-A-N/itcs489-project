@@ -10,7 +10,7 @@ class App
   {
     $this->router = new \Core\Router();
     $this->load_routes($this->router);
-    // $this->handle_middlewares();
+    $this->handle_middlewares();
     $this->load_controller();
   }
 
@@ -18,15 +18,15 @@ class App
     require 'routes.php' ;
   }
 
-  // private function handle_middlewares() {
-  //   $url = $this->get_url();
+  private function handle_middlewares() {
+    $url = $this->get_url();
 
-  //   // If user is logged in go to home
-  //   if ( isset($_SESSION['email']) && $url === '/' ) {
-  //     header("Location: /home");
-  //     exit;
-  //   }
-  // }
+    // If user is logged in go to home
+    if ( isset($_SESSION['email']) && ($url === '/login' || $url === '/register')) {
+      header("Location: /");
+      exit;
+    }
+  }
 
   private function load_controller()
   {
@@ -34,6 +34,7 @@ class App
     $method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
     dump("URL: $url");
     dump("Method: $method");
+    dump($_SESSION);
     $this->router->route($url, $method);
   }
 
@@ -41,6 +42,3 @@ class App
     return parse_url($_SERVER['REQUEST_URI'])['path'] ?? '/';
   }
 }
-
-/** Routing */
-// $uri = parse_url($_SERVER['REQUEST_URI'])['path'];

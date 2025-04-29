@@ -11,12 +11,11 @@ class Login extends \Core\Controller
 
   public function __construct()
   {
-
     if (Validator::post('login')) {
       $this->login();
     }
-      $this->index();
-    
+    $this->index();
+
   }
 
   private function index()
@@ -26,16 +25,24 @@ class Login extends \Core\Controller
     ]);
   }
 
-  private function login() {
-    // login via User model, authentication important!
+  private function login()
+  {
+    $model = new \Models\User();
+    $login_type = $_POST['email'] != "" ? 'email' : 'phone';
+    $user = $model->get_user_with_credentials($login_type, $_POST[$login_type], $_POST['password']);
+    $this->errors = $model->errors;
+    if ($user) $this->create_session($user);
+    $this->index();
   }
 
-}
+  private function create_session($user) {
+    $_SESSION['email'] = $user['email'];
+    $_SESSION['phone'] = $user['phone'];
+    $_SESSION['persistent'] = isset($_POST['keepLogin']);
 
-// Don't load this page at all if user is logged in!
-if (isset($_SESSION['email'])) {
-  header('Location: /');
-  exit;
+    header('Location: /');
+  }
+
 }
 
 $controller = new Login();
