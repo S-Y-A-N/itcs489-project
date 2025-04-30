@@ -17,3 +17,7 @@ $router->get('/logout', 'Logout');
 // Single product page
 $router->get('/product', 'Products/Show');
 $router->post('/product', 'Products/Show');
+
+// Cart
+$router->get('/cart', 'Cart');
+$router->post('/cart', 'Cart');

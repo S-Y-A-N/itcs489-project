@@ -1,0 +1,95 @@
+<main class="container mt-5">
+
+  <h1>My Cart</h1>
+  <p class="lead text-secondary">Cart (<?= $total_quantity ?> items)</p>
+
+  <div class="d-flex flex-column flex-lg-row align-items-lg-start gap-5">
+
+    <table class="table table-striped table-responsive">
+
+      <thead>
+        <tr>
+          <th scope="col">Product</th>
+          <th scope="col" class="text-end">Price</th>
+          <th scope="col" class="text-end">Quantity</th>
+          <th scope="col" class="text-end">Total</th>
+        </tr>
+      </thead>
+
+      <tbody class="table-group-divider">
+
+        <?php foreach ($cart_items as $item): ?>
+          <tr>
+            <td scope="col">
+              <div>
+                <a href="/product?id=<?= $item['product_id'] ?>"
+                  class="d-flex gap-2 link-underline link-underline-opacity-0 link-body-emphasis">
+                  <img class="img-thumbnail" src="https://placehold.co/40x40/fffbcf/d4a900?text=Product" alt="Title" />
+                  <p class="mt-2"><?= $item['info']['name'] ?></p>
+                </a>
+              </div>
+            </td>
+            <td class="text-end align-middle">
+              <span class="price"><?= number_format((float) $item['info']['new_price'], 2) ?></span> <span>BHD</span>
+            </td>
+            <td class="text-end align-middle">
+              <form method="post" class="mb-0 ms-5">
+                <input type="hidden" name="product_id" value="<?= $item['product_id'] ?>">
+                <select name="quantity" class="quantity form-select w-100">
+                  <?php for ($i = 1; $i <= 5; $i++): ?>
+                    <option value="<?= $i ?>" <?= $item['quantity'] === $i ? 'selected' : '' ?>>Quantity: <?= $i ?></option>
+                  <?php endfor ?>
+                </select>
+              </form>
+            </td>
+            <td class="text-end align-middle">
+              <span class="quantity_price"><?= $item['total_price'] ?></span> <span>BHD</span>
+            </td>
+          </tr>
+        <?php endforeach ?>
+
+      </tbody>
+    </table>
+
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Cart Summary</h5>
+        <div class="d-flex justify-content-between">
+          <p>Total</p>
+          <p class="card-text"><?= $total_price ?> BHD</p>
+
+        </div>
+        <a href="/checkout" class="btn btn-primary w-100 mb-2">Procced to Checkout</a>
+        <a href="/" class="btn btn-secondary w-100">Continue Shopping</a>
+      </div>
+    </div>
+
+  </div>
+
+
+</main>
+
+
+<script type="module">
+
+  const quantityList = document.querySelectorAll('.quantity');
+  const quantityPriceList = document.querySelectorAll('.quantity_price');
+  const priceList = document.querySelectorAll('.price');
+
+  for (let i = 0; i < priceList.length; i++) {
+
+    quantityList[i].addEventListener('change', (event) => {
+
+      let quantity = Number(quantityList[i].value);
+      let quantityPrice = parseFloat(quantityPriceList[i].textContent);
+      let price = parseFloat(priceList[i].textContent);
+
+      quantityPriceList[i].textContent = (price * quantity).toFixed(2);
+
+      quantityList[i].form.submit();
+    }, true);
+  }
+
+  // TODO send updated values to php
+
+</script>

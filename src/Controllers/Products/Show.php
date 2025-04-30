@@ -31,7 +31,6 @@ class Show extends \Core\Controller
       $product = $product_model->get_id($product_id);
 
       $this->view_page($this->view, [
-        'h1' => 'Online Shopping',
         'product' => $product,
         'errors' => $this->errors
       ]);
