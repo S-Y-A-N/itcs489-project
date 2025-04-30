@@ -13,3 +13,7 @@ $router->post('/login', 'Login');
 
 // Logout
 $router->get('/logout', 'Logout');
+
+// Single product page
+$router->get('/product', 'Products/Show');
+$router->post('/product', 'Products/Show');

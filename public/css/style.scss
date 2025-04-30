@@ -11,6 +11,10 @@ $primary: #605be7;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
+.product-details {
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+}
+
 .categories-nav {
   width: fit-content;
 }

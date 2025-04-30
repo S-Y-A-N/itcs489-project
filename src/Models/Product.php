@@ -4,11 +4,37 @@ namespace Models;
 
 class Product extends \Core\Model
 {
+  public function calculateNewPrice($price, $offer): float {
+    return $price - $price * $offer;
+  }
+
+  public function get_id($id): array {
+    $query = $this->db->query('SELECT * FROM products WHERE product_id = :id', [
+      'id' => $id
+    ]);
+
+    $product = $query->fetch();
+
+    // calculate new price
+    $product['new_price'] = $this->calculateNewPrice($product['price'], $product['offer']);
+
+    return $product;
+  }
+
   public function get_all(): array
   {
     $query = $this->db->query('SELECT * FROM products');
 
     $products = $query->fetchAll();
+
+    $seller_model = new \Models\Seller();
+
+    foreach ($products as &$p) {
+      $seller = $seller_model->get_seller($p['seller_id']);
+      $p['new_price'] = $p['price'] - $p['price']*$p['offer'];
+      $p['brand_name'] = $seller['brand_name'];
+    }
+    unset($p);
 
     return $products;
   }
