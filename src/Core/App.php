@@ -32,9 +32,6 @@ class App
   {
     $url = $this->get_url();
     $method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
-    dump("URL: $url");
-    dump("Method: $method");
-    dump($_SESSION);
     $this->router->route($url, $method);
   }
 

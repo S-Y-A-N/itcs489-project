@@ -16,7 +16,8 @@ class Product extends \Core\Model
     $product = $query->fetch();
 
     // calculate new price
-    $product['new_price'] = $this->calculateNewPrice($product['price'], $product['offer']);
+    $product['new_price'] = number_format($this->calculateNewPrice($product['price'], $product['offer']),2);
+    $product['offer'] = number_format( $product['offer'],2);
 
     return $product;
   }

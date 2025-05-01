@@ -1,5 +1,9 @@
 <?php
 
+// Deletes cookies!
+// unset($_COOKIE);
+// setcookie('cart','', -1, '/');
+
 // session_set_cookie_params(2000, '/', 'localhost', true, true);
 session_start();
 

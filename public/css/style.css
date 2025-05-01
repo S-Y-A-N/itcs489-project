@@ -12010,6 +12010,10 @@ textarea.form-control-lg {
   --iti-path-globe-1x: url("path/to/globe_light.webp");
   --iti-path-globe-2x: url("path/to/globe_light@2x.webp");
 }
+.extend-vh {
+  height: 70vh;
+}
+
 @media (max-width: 991.98px) {
   .carousel-item {
     height: 300px;

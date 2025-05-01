@@ -59,6 +59,10 @@ $primary: #605be7;
   }
 }
 
+.extend-vh {
+  height: 70vh;
+}
+
 // Media Queries
 
 @include media-breakpoint-down(lg) {

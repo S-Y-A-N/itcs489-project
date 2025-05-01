@@ -2,71 +2,44 @@
 
 namespace Controllers;
 
-use Core\Validator;
-
 class Cart extends \Core\Controller
 {
   private $view = 'cart';
 
   public function __construct()
   {
-    if (Validator::post('quantity')) {
-      $this->update_quantity();
+    $input = file_get_contents('php://input');
+    $content_type = $_SERVER['CONTENT_TYPE'] ?? '';
+
+    if (str_contains($content_type, 'application/json') && !empty($input)) {
+      $this->update_quantity($input);
+    } else {
+      $this->index();
     }
-    $this->index();
   }
 
   private function index()
   {
-    $product_model = new \Models\Product();
+    $cart = (new \Models\Cart)->get();
 
-    $cart_items = isset($_COOKIE['cart']) ? json_decode($_COOKIE['cart'], true) : [];
-    $total_quantity = 0;
-    $total_price = 0;
-
-    foreach ($cart_items as &$item) {
-      $item['info'] = $product_model->get_id($item['product_id']);
-      $item['total_price'] = number_format((float) $item['info']['new_price'] * $item['quantity'], 2);
-      $total_quantity += (int) $item['quantity'];
-      $total_price += (int) $item['info']['new_price'];
+    if (empty($cart['cart_items'])) {
+      $this->view_page('empty_cart');
+      return;
     }
-    unset($item);
 
     $this->view_page($this->view, [
-      'cart_items' => $cart_items,
-      'total_quantity' => $total_quantity,
-      'total_price' => $total_price
+      'cart_items' => $cart['cart_items'],
+      'total_quantity' => $cart['total_quantity'],
+      'total_price' => $cart['total_price']
     ]);
   }
 
-  public function update_quantity()
+  public function update_quantity($input)
   {
-    // user logged in, save to db
-    if (isset($_SESSION['user_id'])) {
-
-    }
-
-    // user not logged in, save in cookie
-    else {
-      dump($_COOKIE);
-
-      $cart = isset($_COOKIE['cart']) ? json_decode($_COOKIE['cart'], true) : [];
-      $quantity = (int) $_POST['quantity'];
-      dump($_POST['product_id']);
-
-
-      // update quantity if product exists in cart
-      foreach ($cart as &$item) {
-        if ($item['product_id'] == $_POST['product_id']) {
-          $item['quantity'] = $quantity;
-          dump($item);
-        }
-      }
-      unset($item);
-
-      setcookie('cart', json_encode($cart), time() + (86400 * 7), "/");
-    }
+    $data = json_decode($input, true);
+    (new \Models\Cart())->updateQuantity($data);
   }
+
 
 }
 

@@ -9,4 +9,9 @@ class Controller {
     include source_path("Views/common/template.php");
   }
 
+  public function handle_request($input) {
+    $data = json_decode($input, true);
+    return $data;
+  }
+
 }

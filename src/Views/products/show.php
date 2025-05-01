@@ -32,7 +32,7 @@
       </div>
 
       <form method="post">
-        <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+        <input type="hidden" name="product_id" id="productId" value="<?= $product['product_id'] ?>" />
         <div class="d-flex">
           <select id="quantity" name="quantity" class="form-select mb-3 w-25 me-3">
             <option value="1" selected>Quantity: 1</option>
@@ -41,13 +41,13 @@
             <option value="4">Quantity: 4</option>
             <option value="5">Quantity: 5</option>
           </select>
-          <p class="fs-2"><strong id="quantity_price"><?= $product['new_price'] ?></strong> <span
-              class="fs-3">BHD</span></p>
+          <p class="fs-2"><strong id="quantityPrice"><?= $product['new_price'] ?></strong> <span class="fs-3">BHD</span>
+          </p>
         </div>
-        <button type="submit" id="cart-btn" name="cart" class="btn btn-primary w-100 mb-2"><i
+        <button type="button" id="cartSubmit" name="cart" value="" class="btn btn-primary w-100 mb-2"><i
             class="bi bi-cart me-2"></i>Add to
           Cart</button>
-        <button type="submit" id="wishlist-btn" name="wishlist" class="btn btn-outline-danger w-100"><i
+        <button type="button" id="wishlistSubmit" name="wishlist" value="" class="btn btn-outline-danger w-100"><i
             class="bi bi-heart me-2"></i>Add
           to Wishlist</button>
       </form>
@@ -69,12 +69,46 @@
 
 <script type="module">
 
-  const quantity = document.querySelector('#quantity');
-  const quantityPrice = document.querySelector('#quantity_price');
-  const basePrice = Number(quantityPrice.textContent);
+  const productId = document.querySelector('#productId').value;
 
-  quantity.addEventListener('change', () => {
-    quantityPrice.textContent = (basePrice * quantity.value).toFixed(2);
-  });
+  const quantityInput = document.querySelector('#quantity');
+  const quantityPrice = document.querySelector('#quantityPrice');
+  const basePrice = Number(quantityPrice.textContent);
+  const cartSubmit = document.querySelector('#cartSubmit');
+
+  let quantity = Number(quantityInput.value);
+
+  quantityInput.addEventListener('change', () => {
+    quantityPrice.textContent = (basePrice * quantity).toFixed(2);
+
+  }, true);
+
+  cartSubmit.addEventListener('click', () => {
+
+    let data = {
+      quantity: quantity,
+      product_id: productId,
+      cart: true
+    };
+
+    fetch('/product', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          console.log('Cart updated successfully:', data);
+        } else {
+          alert('Failed to add to cart. Please try again.');
+        }
+      })
+      .catch(error => console.error('Error:', error));
+
+  }, true);
+
 
 </script>

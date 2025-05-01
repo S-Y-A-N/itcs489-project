@@ -1,7 +1,7 @@
 <main class="container mt-5">
 
   <h1>My Cart</h1>
-  <p class="lead text-secondary">Cart (<?= $total_quantity ?> items)</p>
+  <p class="lead text-secondary" id="cartTotalQ">Cart (<?= $total_quantity ?> items)</p>
 
   <div class="d-flex flex-column flex-lg-row align-items-lg-start gap-5">
 
@@ -34,10 +34,10 @@
             </td>
             <td class="text-end align-middle">
               <form method="post" class="mb-0 ms-5">
-                <input type="hidden" name="product_id" value="<?= $item['product_id'] ?>">
+                <input class="product_id" type="hidden" name="product_id" value="<?= $item['product_id'] ?>">
                 <select name="quantity" class="quantity form-select w-100">
                   <?php for ($i = 1; $i <= 5; $i++): ?>
-                    <option value="<?= $i ?>" <?= $item['quantity'] === $i ? 'selected' : '' ?>>Quantity: <?= $i ?></option>
+                    <option value="<?= $i ?>" <?= $item['quantity'] === $i ? 'selected' : '' ?>><?= $i ?></option>
                   <?php endfor ?>
                 </select>
               </form>
@@ -56,7 +56,7 @@
         <h5 class="card-title">Cart Summary</h5>
         <div class="d-flex justify-content-between">
           <p>Total</p>
-          <p class="card-text"><?= $total_price ?> BHD</p>
+          <p class="card-text" id="cartTotalP"><?= $total_price ?> BHD</p>
 
         </div>
         <a href="/checkout" class="btn btn-primary w-100 mb-2">Procced to Checkout</a>
@@ -75,21 +75,50 @@
   const quantityList = document.querySelectorAll('.quantity');
   const quantityPriceList = document.querySelectorAll('.quantity_price');
   const priceList = document.querySelectorAll('.price');
+  const idList = document.querySelectorAll('.product_id');
+  
+  const cartTotalPrice = document.querySelector('#cartTotalP');
+  const cartTotalQuantity = document.querySelector('#cartTotalQ');
 
   for (let i = 0; i < priceList.length; i++) {
 
     quantityList[i].addEventListener('change', (event) => {
 
       let quantity = Number(quantityList[i].value);
-      let quantityPrice = parseFloat(quantityPriceList[i].textContent);
       let price = parseFloat(priceList[i].textContent);
+      let productId = idList[i].value;
 
+      // Update the item's total price dynamically
       quantityPriceList[i].textContent = (price * quantity).toFixed(2);
 
-      quantityList[i].form.submit();
-    }, true);
-  }
+      let data = {
+        quantity: quantity,
+        product_id: productId
+      };
 
-  // TODO send updated values to php
+      // Send the updated quantity to the server
+      fetch('/cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Update the total price and quantity dynamically
+          cartTotalPrice.textContent = `${data.total_price} BHD`;
+          cartTotalQuantity.textContent = `Cart (${data.total_quantity} items)`;
+          console.log('Cart updated successfully:', data);
+        } else {
+          alert('Failed to update the cart. Please try again.');
+        }
+      })
+      .catch(error => console.error('Error:', error));
+
+    }, true);
+
+  }
 
 </script>
