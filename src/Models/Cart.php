@@ -22,7 +22,7 @@ class Cart extends \Core\Model
 
 
   // Returns the cart items, total quantity, and total price
-  public function get()
+  public function get(): array
   {
     if (isset($_SESSION['user_id'])) {
       $user_id = $_SESSION['user_id'];
@@ -64,40 +64,48 @@ class Cart extends \Core\Model
 
     // user logged in, save to db
     if (isset($_SESSION['user_id'])) {
-
-      // 1- user_id (from session)
       $user_id = $_SESSION['user_id'];
 
-      // 2- get cart item using user_id and product_id (from js)
       $cart_item = $this->db->query('SELECT * FROM cart_items WHERE user_id = :user_id and product_id = :product_id', [
         'user_id' => $user_id,
         'product_id' => $product_id
       ])->fetch();
 
-      // 3- if cart item exists, update quantity
       if ($cart_item) {
         $new_quantity = $cart_item['quantity'] + $quantity;
 
         // check if quantity exceeds 5
         if ($new_quantity > 5) {
-          $this->errors['max'] = 'Cannot add more than 5 of this item to cart';
+
+          echo json_encode([
+            'success' => false
+          ]);
+          return;
+
         } else {
+
           $this->db->query('UPDATE cart_items SET quantity = :quantity WHERE user_id = :user_id AND product_id = :product_id', [
             'quantity' => $new_quantity,
             'user_id' => $user_id,
             'product_id' => $product_id
           ]);
+
         }
       } else {
-        // 4- if cart item does not exist, insert new item
+
+        // if cart item does not exist, insert new item
         $this->db->query('INSERT INTO cart_items (user_id, product_id, quantity) VALUES (:user_id, :product_id, :quantity)', [
           'user_id' => $user_id,
           'product_id' => $product_id,
           'quantity' => $quantity
         ]);
+
       }
-      // 5- update totals
-      $this->updateTotals();
+
+      echo json_encode([
+        'success' => true,
+      ]);
+      return;
 
     }
 
@@ -112,7 +120,10 @@ class Cart extends \Core\Model
           if ($item['quantity'] < 5) {
             $item['quantity'] += $quantity;
           } else {
-            $this->errors['max'] = 'Cannot add more than 5 of this item to cart';
+            echo json_encode([
+              'success' => false,
+            ]);
+            return;
           }
           $found = true;
           break;
@@ -129,7 +140,10 @@ class Cart extends \Core\Model
       }
 
       setcookie('cart', json_encode($cart), time() + (86400 * 7), "/");
-      echo "Item added to cart successfully (Quantity: $quantity)";
+
+      echo json_encode([
+        'success' => true,
+      ]);
     }
 
 
@@ -174,6 +188,42 @@ class Cart extends \Core\Model
       unset($item);
 
       setcookie('cart', json_encode($cart_items), time() + (86400 * 7), "/");
+      $_COOKIE['cart'] = json_encode($cart_items); // important to update the cookies immediately
+    }
+
+    $this->updateTotals();
+  }
+
+
+
+
+  public function removeItem($data)
+  {
+    $product_id = $data['product_id'];
+
+    if (isset($_SESSION['user_id'])) {
+      $user_id = $_SESSION['user_id'];
+
+      $removedItem = $this->db->query('DELETE FROM cart_items WHERE user_id = :user_id AND product_id = :product_id', [
+        'user_id' => $user_id,
+        'product_id' => $product_id
+      ])->fetch();
+
+      error_log($removedItem);
+
+    } else {
+
+      $cart_items = isset($_COOKIE['cart']) ? json_decode($_COOKIE['cart'], true) : [];
+
+      foreach ($cart_items as $key => $item) {
+        if ($item['product_id'] == $product_id) {
+          unset($cart_items[$key]);
+          break;
+        }
+      }
+
+      setcookie('cart', json_encode($cart_items), time() + (86400 * 7), "/");
+      $_COOKIE['cart'] = json_encode($cart_items); // important to update the cookies immediately
     }
 
     $this->updateTotals();
@@ -189,9 +239,13 @@ class Cart extends \Core\Model
   {
     if (isset($_SESSION['user_id'])) {
       $user_id = $_SESSION['user_id'];
+
       $cart_items = $this->db->query('SELECT * FROM cart_items WHERE user_id = :user_id', [
         'user_id' => $user_id
       ])->fetchAll();
+
+      error_log("Cart items: " . print_r($cart_items, true));
+
     } else {
       $cart_items = isset($_COOKIE['cart']) ? json_decode($_COOKIE['cart'], true) : [];
     }

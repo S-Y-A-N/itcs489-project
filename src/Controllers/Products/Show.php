@@ -14,7 +14,8 @@ class Show extends \Core\Controller
     $content_type = $_SERVER['CONTENT_TYPE'] ?? '';
 
     if (str_contains($content_type, 'application/json') && !empty($input)) {
-      $this->add_to_cart($input);
+      $data = json_decode($input, true);
+      $this->add_to_cart($data);
     } else {
       $this->index();
     }
@@ -54,9 +55,8 @@ class Show extends \Core\Controller
 
 
 
-  public function add_to_cart($input)
+  public function add_to_cart($data)
   {
-    $data = json_decode($input, true);
     (new \Models\Cart)->add($data);
   }
 

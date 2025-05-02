@@ -25,7 +25,7 @@
           </p>
         <?php endif; ?>
         <p class="lead fs-2">
-          <strong><?= $product['new_price'] ?></strong> <span class="fs-4">BHD</span>
+          <strong id="basePrice"><?= $product['new_price'] ?></strong> <span class="fs-4">BHD</span>
         </p>
         <p><strong>Description:</strong></p>
         <p><?= $product['description'] ?></p>
@@ -35,11 +35,12 @@
         <input type="hidden" name="product_id" id="productId" value="<?= $product['product_id'] ?>" />
         <div class="d-flex">
           <select id="quantity" name="quantity" class="form-select mb-3 w-25 me-3">
-            <option value="1" selected>Quantity: 1</option>
-            <option value="2">Quantity: 2</option>
-            <option value="3">Quantity: 3</option>
-            <option value="4">Quantity: 4</option>
-            <option value="5">Quantity: 5</option>
+            <option disabled>Quantity</option>
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
           </select>
           <p class="fs-2"><strong id="quantityPrice"><?= $product['new_price'] ?></strong> <span class="fs-3">BHD</span>
           </p>
@@ -53,19 +54,53 @@
       </form>
     </div>
 
-    <!-- TODO Toast message -->
-    <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="toast-body">
-        <?= $message ?>
-        <div class="mt-2 pt-2 border-top">
-          <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="toast">Continue Shopping</button>
-          <a href="" type="button" class="btn btn-secondary btn-sm">View Cart</a>
+  </div>
+</main>
+
+<div aria-live="polite" aria-atomic="true" class="position-relative">
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+
+    <!-- Error Toast message -->
+    <div id="errorToast" class="toast align-items-center text-bg-warning" role="alert" aria-live="assertive"
+      aria-atomic="true">
+      <div class="position-relative">
+        <div class="fs-4 m-2 position-absolute top-0 start-0">
+          <i class="bi bi-exclamation-circle-fill"></i>
+          <strong>Warning</strong>
         </div>
+        <button type="button" class="btn-close m-2 position-absolute top-0 end-0" data-bs-theme="light"
+          data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body mt-5 fs-6">
+        Due to limited stock, you cannot add more than 5 of this item to your cart.
+      </div>
+      <div class="d-flex justify-content-end">
+        <a href="/cart" type="button" class="btn btn-dark m-2">View Cart</a>
+      </div>
+    </div>
+
+    <!-- Success Toast message -->
+    <div id="successToast" class="toast align-items-center text-bg-success" role="alert" aria-live="assertive"
+      aria-atomic="true">
+      <div class="position-relative">
+        <div class="fs-4 m-2 position-absolute top-0 start-0">
+          <i class="bi bi-check-circle-fill"></i>
+          <strong>Success</strong>
+        </div>
+        <button type="button" class="btn-close m-2 position-absolute top-0 end-0" data-bs-theme="dark"
+          data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body mt-5 fs-6">
+        Item added to cart successfully.
+      </div>
+      <div class="d-flex justify-content-end">
+        <a href="/cart" type="button" class="btn btn-light m-2">View Cart</a>
       </div>
     </div>
 
   </div>
-</main>
+</div>
 
 <script type="module">
 
@@ -73,17 +108,18 @@
 
   const quantityInput = document.querySelector('#quantity');
   const quantityPrice = document.querySelector('#quantityPrice');
-  const basePrice = Number(quantityPrice.textContent);
   const cartSubmit = document.querySelector('#cartSubmit');
 
-  let quantity = Number(quantityInput.value);
-
   quantityInput.addEventListener('change', () => {
+    let basePrice = Number(document.querySelector('#basePrice').textContent);
+    let quantity = Number(quantityInput.value);
+
     quantityPrice.textContent = (basePrice * quantity).toFixed(2);
 
   }, true);
 
   cartSubmit.addEventListener('click', () => {
+    let quantity = Number(quantityInput.value);
 
     let data = {
       quantity: quantity,
@@ -101,9 +137,13 @@
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          console.log('Cart updated successfully:', data);
+          const successToast = document.querySelector('#successToast');
+          const toast = bootstrap.Toast.getOrCreateInstance(successToast);
+          toast.show();
         } else {
-          alert('Failed to add to cart. Please try again.');
+          const errorToast = document.querySelector('#errorToast');
+          const toast = bootstrap.Toast.getOrCreateInstance(errorToast);
+          toast.show();
         }
       })
       .catch(error => console.error('Error:', error));

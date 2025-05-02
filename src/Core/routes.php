@@ -21,3 +21,7 @@ $router->post('/product', 'Products/Show');
 // Cart
 $router->get('/cart', 'Cart');
 $router->post('/cart', 'Cart');
+
+// Checkout
+$router->get('/checkout', 'Checkout');
+$router->post('/checkout', 'Checkout');

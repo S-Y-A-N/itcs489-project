@@ -12,7 +12,19 @@ class Cart extends \Core\Controller
     $content_type = $_SERVER['CONTENT_TYPE'] ?? '';
 
     if (str_contains($content_type, 'application/json') && !empty($input)) {
-      $this->update_quantity($input);
+      $data = json_decode($input, true);
+
+      switch ($data['action']) {
+        case 'remove':
+          $this->remove_item($data);
+          break;
+        case 'update':
+          $this->update_quantity($data);
+          break;
+        default:
+          $this->index();
+      }
+
     } else {
       $this->index();
     }
@@ -34,10 +46,14 @@ class Cart extends \Core\Controller
     ]);
   }
 
-  public function update_quantity($input)
+  public function update_quantity($data)
   {
-    $data = json_decode($input, true);
     (new \Models\Cart())->updateQuantity($data);
+  }
+
+  public function remove_item($data)
+  {
+    (new \Models\Cart())->removeItem($data);
   }
 
 

@@ -1,7 +1,7 @@
 <main class="container mt-5">
 
   <h1>My Cart</h1>
-  <p class="lead text-secondary" id="cartTotalQ">Cart (<?= $total_quantity ?> items)</p>
+  <p class="lead text-secondary" id="cartTotalQuantity">Cart (<?= $total_quantity ?> items)</p>
 
   <div class="d-flex flex-column flex-lg-row align-items-lg-start gap-5">
 
@@ -21,7 +21,7 @@
         <?php foreach ($cart_items as $item): ?>
           <tr>
             <td scope="col">
-              <div>
+              <div class="d-flex align-items-center gap-2">
                 <a href="/product?id=<?= $item['product_id'] ?>"
                   class="d-flex gap-2 link-underline link-underline-opacity-0 link-body-emphasis">
                   <img class="img-thumbnail" src="https://placehold.co/40x40/fffbcf/d4a900?text=Product" alt="Title" />
@@ -45,7 +45,55 @@
             <td class="text-end align-middle">
               <span class="quantity_price"><?= $item['total_price'] ?></span> <span>BHD</span>
             </td>
+            <td class="text-end align-middle">
+              <div class="dropdown">
+                <button type="button" class="btn border-0" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-three-dots-vertical"></i>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><button class="dropdown-item" type="button">
+                      <i class="bi bi-heart"></i>
+                      <span class="ms-2">Add to Wishlist</span>
+                    </button></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><button class="dropdown-item btn btn-danger" type="button" data-bs-toggle="modal"
+                      data-bs-target="#removeModal">
+                      <i class="bi bi-trash"></i>
+                      <span class="ms-2">Remove</span>
+                    </button></li>
+
+                </ul>
+              </div>
           </tr>
+
+          <!-- Remove Item from Cart Modal -->
+          <div class="modal fade" id="removeModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Remove
+                    <strong>"<?= $item['info']['name'] ?>"</strong>
+                  </h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Are you sure you want to remove <strong>"<?= $item['info']['name'] ?>"</strong> from your cart?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <form>
+                    <button class="btn btn-danger removeItemBtn" type="button"">
+                      <i class="bi bi-trash"></i>
+                      Remove
+                    </button>
+                    <input type="hidden" class="product_id" value="<?= $item['product_id'] ?>">
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
         <?php endforeach ?>
 
       </tbody>
@@ -56,7 +104,7 @@
         <h5 class="card-title">Cart Summary</h5>
         <div class="d-flex justify-content-between">
           <p>Total</p>
-          <p class="card-text" id="cartTotalP"><?= $total_price ?> BHD</p>
+          <p class="card-text" id="cartTotalPrice"><?= $total_price ?> BHD</p>
 
         </div>
         <a href="/checkout" class="btn btn-primary w-100 mb-2">Procced to Checkout</a>
@@ -76,9 +124,10 @@
   const quantityPriceList = document.querySelectorAll('.quantity_price');
   const priceList = document.querySelectorAll('.price');
   const idList = document.querySelectorAll('.product_id');
+  const removeItemBtnList = document.querySelectorAll('.removeItemBtn');
   
-  const cartTotalPrice = document.querySelector('#cartTotalP');
-  const cartTotalQuantity = document.querySelector('#cartTotalQ');
+  const cartTotalPrice = document.querySelector('#cartTotalPrice');
+  const cartTotalQuantity = document.querySelector('#cartTotalQuantity');
 
   for (let i = 0; i < priceList.length; i++) {
 
@@ -93,7 +142,8 @@
 
       let data = {
         quantity: quantity,
-        product_id: productId
+        product_id: productId,
+        action: 'update'
       };
 
       // Send the updated quantity to the server
@@ -118,6 +168,39 @@
       .catch(error => console.error('Error:', error));
 
     }, true);
+
+
+    removeItemBtnList[i].addEventListener('click', (event) => {
+      let productId = idList[i].value;
+
+      let data = {
+        product_id: productId,
+        action: 'remove'
+      };
+
+      // Send the request to remove the item from the cart
+      fetch('/cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Remove the item from the cart and update the total price and quantity
+          cartTotalPrice.textContent = `${data.total_price} BHD`;
+          cartTotalQuantity.textContent = `Cart (${data.total_quantity} items)`;
+          location.reload();
+        } else {
+          alert('Failed to remove the item. Please try again.');
+        }
+      })
+      .catch(error => console.error('Error:', error));
+
+    }, true);
+
 
   }
 
