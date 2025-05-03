@@ -25,3 +25,6 @@ $router->post('/cart', 'Cart');
 // Checkout
 $router->get('/checkout', 'Checkout');
 $router->post('/checkout', 'Checkout');
+
+// Add, Update, Delete Address
+$router->post('/address', 'Address');

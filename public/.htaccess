@@ -17,3 +17,5 @@
 
 # Display errors on screen
 php_flag display_errors 1
+php_flag log_errors 1
+php_flag error_reporting 4
