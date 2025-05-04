@@ -9,8 +9,69 @@
         <?php render('forms/bank-card') ?>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Choose Address</button>
+      <button type="submit" class="btn btn-primary" form="cardForm">Choose Card</button>
       </div>
     </div>
   </div>
 </div>
+
+
+<script>
+  // For card form
+  const cardForm = document.querySelector('#cardForm');
+
+  cardForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    if (!formData.get('saveCard')) {
+      event.stopPropagation();
+
+      const cardBtns = document.querySelectorAll('.cardBtn');
+      cardBtns.forEach((btn) => {
+        btn.parentElement.classList.remove('text-info', 'border-info');
+      });
+
+      const selectedCardInfo = document.querySelector('#selectedCardInfo');
+      selectedCardInfo.setAttribute('data-card', 'cookie');
+
+      const card = Object.fromEntries(formData);
+      selectedCardInfo.innerHTML = `
+        <p>${card.card_number}</p>
+      `;
+
+      document.cookie = 'card=' + JSON.stringify(card);
+      console.log(document.cookie)
+
+      const cardModal = document.querySelector('#bankCardModal');
+      const modal = bootstrap.Modal.getInstance(cardModal);
+      modal.hide();
+
+      return;
+    }
+
+    formData.append('action', 'add');
+
+    // Send data to the server
+    fetch('/bank-card', {
+      method: 'POST',
+      body: JSON.stringify(Object.fromEntries(formData)),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          console.log('Card saved successfully with data: ', data);
+          const cardModal = document.querySelector('#bankCardModal');
+          const modal = bootstrap.Modal.getInstance(cardModal);
+          modal.hide();
+          location.reload();
+        } else {
+          console.error('Failed to save card: ', data);
+        }
+      })
+      .catch(error => console.error('Error:', error));
+  });
+</script>

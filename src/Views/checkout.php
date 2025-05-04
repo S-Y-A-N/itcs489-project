@@ -74,7 +74,29 @@
           </div>
 
           <div id="cards" class="mt-3" hidden>
-            <p class="text-secondary">You do not have any saved cards</p>
+
+            <?php if (empty($cards)): ?>
+              <p class="text-secondary">You do not have any saved cards</p>
+            <?php else: ?>
+              <h5>Saved Cards</h5>
+              <div class="grid address-grid gap-3 mb-3">
+                <?php foreach ($cards as $card): ?>
+
+                  <div class="card text-secondary">
+                    <div class="card-body">
+                      <h5 class="card-title fs-6">
+                        <?= substr_replace($card['card_number'], ' **** **** ', 4, 10) ?>
+                      </h5>
+                    </div>
+                    <a href="/checkout" id="<?= $card['card_id'] ?>" class="cardBtn stretched-link"></a>
+                  </div>
+                <?php endforeach; ?>
+              </div>
+            <?php endif; ?>
+            <div id="selectedCardInfo">
+
+            </div>
+
             <button type="button" id="cardBtn" class="btn btn-primary float-end" data-bs-toggle="modal"
               data-bs-target="#bankCardModal">New Card</button>
           </div>
@@ -164,7 +186,7 @@
   }
 
 
-// For choosing address from the list
+  // For choosing address from the list
   const addressBtns = document.querySelectorAll('.addressBtn');
   const selectedAddressInfo = document.querySelector('#selectedAddressInfo');
 
@@ -202,6 +224,43 @@
             `;
           } else {
             console.error('Failed to fetch address details');
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+  });
+
+
+  // For choosing card from the list
+  const cardBtns = document.querySelectorAll('.cardBtn');
+  const selectedCardInfo = document.querySelector('#selectedCardInfo');
+  cardBtns.forEach((btn) => {
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      const cardId = e.target.id;
+      console.log('Card ID:', cardId);
+
+      cardBtns.forEach((btn) => {
+        btn.parentElement.classList.remove('text-info', 'border-info');
+      });
+
+      fetch('/bank-card', {
+        method: 'POST',
+        body: JSON.stringify({ action: 'get', cardId: cardId }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            btn.parentElement.classList.add('text-info');
+            btn.parentElement.classList.add('border-info');
+            selectedCardInfo.setAttribute('data-card', cardId);
+          } else {
+            console.error('Failed to fetch card details');
           }
         })
         .catch(error => console.error('Error:', error));

@@ -10,7 +10,7 @@
         <?php render('forms/address') ?>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" id="submitAddress" form="addressForm">Choose Address</button>
+        <button type="submit" class="btn btn-primary"form="addressForm">Choose Address</button>
       </div>
     </div>
   </div>

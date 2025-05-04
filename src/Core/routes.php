@@ -28,3 +28,6 @@ $router->post('/checkout', 'Checkout');
 
 // Add, Update, Delete Address
 $router->post('/address', 'Address');
+
+// Card
+$router->post('/bank-card', 'BankCard');

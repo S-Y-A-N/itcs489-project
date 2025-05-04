@@ -20,7 +20,7 @@ class Checkout extends \Core\Controller
   {
     $cart = (new \Models\Cart())->get();
     $addresses = (new \Models\Address())->getAddresses($_SESSION['user_id']);
-    error_log('Addresses: ' . print_r($addresses, true));
+    $cards = (new \Models\BankCard())->getCards($_SESSION['user_id']);
 
     if (empty($cart['cart_items'])) {
       header('Location: /cart');
@@ -32,6 +32,7 @@ class Checkout extends \Core\Controller
       'total_price' => $cart['total_price'],
       'total_quantity' => $cart['total_quantity'],
       'addresses' => $addresses,
+      'cards' => $cards,
     ]);
   }
 

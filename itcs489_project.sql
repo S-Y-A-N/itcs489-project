@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 02, 2025 at 11:41 PM
+-- Generation Time: May 04, 2025 at 03:23 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -30,12 +30,24 @@ SET time_zone = "+00:00";
 CREATE TABLE `addresses` (
   `address_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `address_title` varchar(50) DEFAULT NULL,
   `address` varchar(256) NOT NULL,
   `address2` varchar(256) DEFAULT NULL,
   `city` varchar(100) NOT NULL,
   `country` varchar(100) NOT NULL,
   `postal` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `addresses`
+--
+
+INSERT INTO `addresses` (`address_id`, `user_id`, `address_title`, `address`, `address2`, `city`, `country`, `postal`) VALUES
+(1, 1, 'Home', 'Block 123, Street 1012, House 99', 'Floor 1', 'Manama', 'Bahrain', '123'),
+(7, 1, 'Work', 'Block 988, Street 1924, Building 30', 'Floor 5, Office 305', 'Manama', 'Bahrain', '988'),
+(9, 1, 'Family Home', 'Block 282, Street 2910, House 2', '', 'Manama', 'Bahrain', '282'),
+(13, 1, 'Friend House', 'Block 123, Street 1012, House 99', 'Floor 1', 'Riffa', 'Bahrain', '988'),
+(14, 1, 'Mariam House', 'Block 929, Street 5593, House 10', '', 'Sanad', 'Bahrain', '929');
 
 -- --------------------------------------------------------
 
@@ -51,6 +63,14 @@ CREATE TABLE `cards` (
   `card_name` varchar(256) NOT NULL,
   `cvv` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cards`
+--
+
+INSERT INTO `cards` (`card_id`, `user_id`, `card_number`, `expiry_date`, `card_name`, `cvv`) VALUES
+(1, 1, '4000 1234 1234 2929', '11/29', 'Sarah Ahmed', '111'),
+(2, 1, '4040 1231 2311 2007', '02/36', 'Sarah Ahmed', '111');
 
 -- --------------------------------------------------------
 
@@ -100,6 +120,47 @@ INSERT INTO `categories` (`category_id`, `code_name`, `name`) VALUES
 (5, 'boys', 'Boys Fashion'),
 (6, 'electronics', 'Electronics'),
 (7, 'furniture', 'Home & Furniture');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `order_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `payment_id` int(11) NOT NULL,
+  `order_address` varchar(256) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `order_item_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `price` float NOT NULL,
+  `quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+CREATE TABLE `payments` (
+  `payment_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `amount` float NOT NULL,
+  `method` enum('card','benefitpay','apple pay') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -214,6 +275,27 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`category_id`);
 
 --
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`order_id`);
+
+--
+-- Indexes for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`order_item_id`),
+  ADD KEY `order_of_item` (`order_id`),
+  ADD KEY `product_of_item` (`product_id`);
+
+--
+-- Indexes for table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`payment_id`),
+  ADD KEY `order_of_payment` (`order_id`);
+
+--
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
@@ -242,13 +324,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `addresses`
 --
 ALTER TABLE `addresses`
-  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `cards`
 --
 ALTER TABLE `cards`
-  MODIFY `card_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `card_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `cart_items`
@@ -261,6 +343,24 @@ ALTER TABLE `cart_items`
 --
 ALTER TABLE `categories`
   MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `order_items`
+--
+ALTER TABLE `order_items`
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -295,6 +395,19 @@ ALTER TABLE `addresses`
 --
 ALTER TABLE `cards`
   ADD CONSTRAINT `cards_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `order_of_item` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `product_of_item` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `payments`
+--
+ALTER TABLE `payments`
+  ADD CONSTRAINT `order_of_payment` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `products`

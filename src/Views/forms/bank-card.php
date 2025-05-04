@@ -1,28 +1,28 @@
-<form class="row g-2">
+<form class="row g-2" id="cardForm">
 
   <div class="col-12">
     <label for="inputCardNumber" class="form-label">Card Number</label>
-    <input type="text" class="form-control" id="inputCardNumber" placeholder="XXXX XXXX XXXX XXXX" required>
+    <input type="text" class="form-control" id="inputCardNumber" name="card_number" placeholder="XXXX XXXX XXXX XXXX" required>
   </div>
 
   <div class="col-md-6">
     <label for="inputExpiry" class="form-label">Expiry Date</label>
-    <input type="text" class="form-control" id="inputExpiry" placeholder="MM/YY" required>
+    <input type="text" class="form-control" id="inputExpiry" name="expiry_date" placeholder="MM/YY" required>
   </div>
 
   <div class="col-md-6">
     <label for="inputCvv" class="form-label">Security Code (CVV)</label>
-    <input type="password" maxlength="3" class="form-control" id="inputCvv" placeholder="XXX" required>
+    <input type="password" maxlength="3" class="form-control" id="inputCvv" name="cvv" placeholder="XXX" required>
   </div>
 
   <div class="col-12">
     <label for="inputName" class="form-label">Name on Card</label>
-    <input type="text" class="form-control" id="inputName" placeholder="John Doe" required>
+    <input type="text" class="form-control" id="inputName" name="card_name" placeholder="John Doe" required>
   </div>
 
   <div class="col-12 mt-4">
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="saveCard">
+      <input class="form-check-input" type="checkbox" id="saveCard" name="saveCard">
       <label class="form-check-label" for="saveCard">
         Save this card
       </label>
@@ -51,7 +51,7 @@
       event.target.value = value;
     }
   });
-  
+
   inputExpiry.addEventListener('input', (event) => {
     const value = event.target.value.replace(/\D/g, '');
 
@@ -68,4 +68,5 @@
     const value = event.target.value.replace(/\D/g, '');
     event.target.value = value;
   });
+
 </script>
