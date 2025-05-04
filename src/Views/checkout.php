@@ -10,8 +10,27 @@
         <div class="card-body">
 
           <div>
-            <p class="text-secondary">You do not have any saved addresses</p>
-            <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#addressModal">
+            <?php if (empty($addresses)): ?>
+              <p class="text-secondary">You do not have any saved addresses</p>
+            <?php else: ?>
+              <h5>Saved Addresses</h5>
+              <div class="grid address-grid gap-3 mb-3">
+                <?php foreach ($addresses as $address): ?>
+
+                  <div class="card text-secondary">
+                    <div class="card-body">
+                      <h5 class="card-title fs-6"><?= $address['address_title'] ?></h5>
+                    </div>
+                    <a href="/checkout" id="<?= $address['address_id'] ?>" class="addressBtn stretched-link"></a>
+                  </div>
+                <?php endforeach; ?>
+              </div>
+            <?php endif; ?>
+            <div id="selectedAddressInfo">
+
+            </div>
+            <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
+              data-bs-target="#addressModal">
               New Address
             </button>
           </div>
@@ -56,7 +75,8 @@
 
           <div id="cards" class="mt-3" hidden>
             <p class="text-secondary">You do not have any saved cards</p>
-            <button type="button" id="cardBtn" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#bankCardModal">New Card</button>
+            <button type="button" id="cardBtn" class="btn btn-primary float-end" data-bs-toggle="modal"
+              data-bs-target="#bankCardModal">New Card</button>
           </div>
 
         </div>
@@ -143,4 +163,48 @@
     });
   }
 
+
+// For choosing address from the list
+  const addressBtns = document.querySelectorAll('.addressBtn');
+  const selectedAddressInfo = document.querySelector('#selectedAddressInfo');
+
+  addressBtns.forEach((btn) => {
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      const addressId = e.target.id;
+      console.log('Address ID:', addressId);
+
+      addressBtns.forEach((btn) => {
+        btn.parentElement.classList.remove('text-info', 'border-info');
+      });
+
+      fetch('/address', {
+        method: 'POST',
+        body: JSON.stringify({ action: 'get', addressId: addressId }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            btn.parentElement.classList.add('text-info');
+            btn.parentElement.classList.add('border-info');
+            selectedAddressInfo.setAttribute('data-address', addressId);
+            selectedAddressInfo.innerHTML = `
+              <h5>${data.address.address_title}</h5>
+              <p>${data.address.address}</p>
+              <p>${data.address.address2}</p>
+              <p>${data.address.city}, ${data.address.country}</p>
+              <p>Postal Code: ${data.address.postal}</p>
+            `;
+          } else {
+            console.error('Failed to fetch address details');
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+  });
 </script>

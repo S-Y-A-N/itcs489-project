@@ -15,6 +15,10 @@ $primary: #605be7;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
 }
 
+.address-grid {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
 .categories-nav {
   width: fit-content;
 }

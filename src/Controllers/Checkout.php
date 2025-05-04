@@ -19,9 +19,11 @@ class Checkout extends \Core\Controller
   public function index()
   {
     $cart = (new \Models\Cart())->get();
+    $addresses = (new \Models\Address())->getAddresses($_SESSION['user_id']);
+    error_log('Addresses: ' . print_r($addresses, true));
 
     if (empty($cart['cart_items'])) {
-      header('Location: /');
+      header('Location: /cart');
       exit();
     }
 
@@ -29,6 +31,7 @@ class Checkout extends \Core\Controller
       'cart_items' => $cart['cart_items'],
       'total_price' => $cart['total_price'],
       'total_quantity' => $cart['total_quantity'],
+      'addresses' => $addresses,
     ]);
   }
 

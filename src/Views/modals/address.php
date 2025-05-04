@@ -27,6 +27,30 @@
     const formData = new FormData(event.target);
     if (!formData.get('saveAddress')) {
       event.stopPropagation();
+
+      const addressBtns = document.querySelectorAll('.addressBtn');
+      addressBtns.forEach((btn) => {
+        btn.parentElement.classList.remove('text-info', 'border-info');
+      });
+
+      const selectedAddressInfo = document.querySelector('#selectedAddressInfo');
+      selectedAddressInfo.setAttribute('data-address', 'cookie');
+
+      const address = Object.fromEntries(formData);
+      selectedAddressInfo.innerHTML = `
+        <p>${address.address}</p>
+        <p>${address.address2}</p>
+        <p>${address.city}, ${address.country}</p>
+        <p>Postal Code: ${address.postal}</p>
+      `;
+
+      document.cookie = 'address=' + JSON.stringify(address);
+      console.log(document.cookie)
+
+      const addressModal = document.querySelector('#addressModal');
+      const modal = bootstrap.Modal.getInstance(addressModal); 
+      modal.hide();
+
       return;
     }
 
@@ -46,7 +70,8 @@
           console.log('Address saved successfully with data: ', data);
           const addressModal = document.querySelector('#addressModal');
           const modal = bootstrap.Modal.getInstance(addressModal); 
-          modal.hide(); // Hide the modal
+          modal.hide();
+          location.reload();
         } else {
           console.error('Failed to save address: ', data);
         }

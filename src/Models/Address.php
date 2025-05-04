@@ -4,10 +4,10 @@ namespace Models;
 
 class Address extends \Core\Model
 {
-  public function getAddress($addressId)
+  public function getAddress($userId, $addressId)
   {
     $query = $this->db->query("SELECT * FROM addresses WHERE user_id = :user_id and address_id = :address_id", [
-      'user_id' => $_SESSION['user_id'],
+      'user_id' => $userId,
       'address_id' => $addressId
     ]);
 
@@ -36,6 +36,19 @@ class Address extends \Core\Model
       return false;
     }
 
+  }
+
+  public function getAddresses($userId)
+  {
+    $query = $this->db->query("SELECT * FROM addresses WHERE user_id = :user_id", [
+      'user_id' => $userId
+    ]);
+
+    if ($query) {
+      return $query->fetchAll();
+    } else {
+      return false;
+    }
   }
 
 }
