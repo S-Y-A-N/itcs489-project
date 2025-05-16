@@ -14,5 +14,7 @@ require 'Controller.php';
 
 require 'Router.php';
 
+require_once __DIR__ . '/../../vendor/autoload.php';
+
 // Run the app
 require 'App.php';

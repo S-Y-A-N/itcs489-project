@@ -47,3 +47,11 @@ $router->get('/babies', 'Products/Index');
 $router->get('/girls', 'Products/Index');
 $router->get('/boys', 'Products/Index');
 $router->get('/furniture', 'Products/Index');
+
+// info pages like about, faq...
+$router->get('/about', 'Info');
+$router->get('/faq', 'Info');
+$router->get('/return-policy', 'Info');
+$router->get('/terms-and-conditions', 'Info');
+$router->get('/privacy-policy', 'Info');
+$router->get('/team', 'Info');

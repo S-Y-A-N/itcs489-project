@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-class Show extends \Core\Controller
+class ProductIndex extends \Core\Controller
 {
   private $view = 'products/index';
 
@@ -50,4 +50,4 @@ class Show extends \Core\Controller
 
 }
 
-$controller = new Show();
+$controller = new ProductIndex();

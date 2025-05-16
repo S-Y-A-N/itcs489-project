@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-class Show extends \Core\Controller
+class ProductShow extends \Core\Controller
 {
   private $view = 'products/show';
   private $errors = [];
@@ -75,4 +75,4 @@ class Show extends \Core\Controller
 
 }
 
-$controller = new Show();
+$controller = new ProductShow();
