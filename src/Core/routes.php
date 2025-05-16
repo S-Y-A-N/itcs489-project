@@ -40,3 +40,10 @@ $router->get('/payment-success', 'PaymentSuccess');
 
 // Search
 $router->get('/products', 'Products/Index');
+$router->get('/electronics', 'Products/Index');
+$router->get('/women', 'Products/Index');
+$router->get('/men', 'Products/Index');
+$router->get('/babies', 'Products/Index');
+$router->get('/girls', 'Products/Index');
+$router->get('/boys', 'Products/Index');
+$router->get('/furniture', 'Products/Index');

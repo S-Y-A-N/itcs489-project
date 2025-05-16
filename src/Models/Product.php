@@ -107,14 +107,27 @@ WHERE MATCH(p.name, p.description) AGAINST (:search IN NATURAL LANGUAGE MODE)
 
   }
 
-  public function get_category()
+  public function getProductsByCategory($categoryCodeName)
   {
+    $products = $this->db->query("
+        SELECT products.* 
+        FROM products
+        JOIN categories ON products.category_id = categories.category_id
+        WHERE categories.code_name = :category
+    ", [
+      'category' => $categoryCodeName,
+    ])->fetchAll();
 
-  }
+    foreach ($products as &$product) {
+      $product['new_price'] = number_format($this->calculateNewPrice($product['price'], $product['offer']), 2);
+      $product['offer'] = number_format($product['offer'], 2);
 
-  public function get_search()
-  {
+      $seller = (new \Models\Seller())->get_seller($product['seller_id']);
+      $product['brand_name'] = $seller['brand_name'];
+    }
+    unset($product);
 
+    return $products;
   }
 
   public function get_seller()

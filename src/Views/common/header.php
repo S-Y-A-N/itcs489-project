@@ -100,7 +100,7 @@
 
 
           <!-- Links (Offers, Brands...) -->
-          <div>
+          <!-- <div>
             <ul class="nav d-flex justify-content-center">
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/offers">Offers</a>
@@ -115,13 +115,13 @@
                 <a class="nav-link" href="/contact">User Service</a>
               </li>
             </ul>
-          </div>
+          </div> -->
 
           <!-- Icon Links (Profile, Wishlist...) -->
           <div class="d-flex gap-3 h4 m-0">
-            <a href="/profile"><i class="bi bi-person-fill"></i></a>
-            <a href="/wishlist"><i class="bi bi-bookmark-heart-fill"></i></a>
-            <a href="/cart"><i class="bi bi-cart-fill"></i></a>
+            <a href="/profile"><i class="bi bi-person-fill link-body-emphasis"></i></a>
+            <a href="/wishlist"><i class="bi bi-bookmark-heart-fill link-body-emphasis"></i></a>
+            <a href="/cart"><i class="bi bi-cart-fill link-body-emphasis"></i></a>
           </div>
         </div>
       </div>
