@@ -23,7 +23,7 @@ const lnameInput = document.querySelector("#lname");
 const lnameFeedback = document.querySelector("#lname ~ .invalid-feedback");
 
 
-const phoneInput = document.querySelector("#phone");
+const phoneInput = document.querySelector("[type=tel]");
 const phoneFeedback = document.querySelector("#phone ~ .invalid-feedback");
 
 const emailInput = document.querySelector("#email");

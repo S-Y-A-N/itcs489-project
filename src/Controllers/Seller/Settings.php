@@ -8,6 +8,11 @@ class Index extends \Core\Controller
 
   public function __construct()
   {
+    if (!isset($_SESSION['seller_id'])) {
+      header('Location: /');
+      exit;
+    }
+    
     $this->index();
   }
 

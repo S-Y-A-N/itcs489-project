@@ -2,7 +2,7 @@
   <div class="p-6 bg-indigo-100 border-b border-indigo-200">
     <div class="flex items-center">
       <div>
-        <h1 class="text-xl font-bold text-black">Cheapy</h1>
+        <?php render('common/brand', ['font_size' => 4, 'logo_size' => 30]) ?>
       </div>
     </div>
   </div>

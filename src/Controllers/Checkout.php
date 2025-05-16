@@ -10,7 +10,7 @@ class Checkout extends \Core\Controller
   {
     if (!isset($_SESSION['user_id'])) {
       header('Location: /login');
-      exit();
+      exit;
     }
 
     $this->index();

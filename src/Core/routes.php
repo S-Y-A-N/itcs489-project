@@ -65,10 +65,22 @@ $router->post('/wishlist', 'Wishlist');
 
 // Seller Portal
 $router->get('/seller-portal', 'Seller/Portal');
+$router->post('/seller-portal', 'Seller/Portal');
 $router->get('/seller/dashboard', 'Seller/Index');
 $router->get('/seller/orders', 'Seller/Orders');
 $router->get('/seller/products', 'Seller/Products');
 $router->get('/seller/customers', 'Seller/Customers');
 $router->get('/seller/reports', 'Seller/Reports');
 $router->get('/seller/account', 'Seller/Settings');
+$router->get('/seller/help', 'Seller/Help');
+
+// Admin Portal
+$router->get('/admin-portal', 'Seller/Portal');
+$router->post('/admin-portal', 'Seller/Portal');
+$router->get('/seller/dashboard', 'Seller/Index');
+$router->get('/seller/orders', 'Seller/Orders');
+$router->get('/seller/products', 'Seller/Products');
+$router->get('/seller/customers', 'Seller/Customers');
+$router->get('/seller/reports', 'Seller/Reports');
+$router->get('/admin/account', 'Admin/Settings');
 $router->get('/seller/help', 'Seller/Help');
