@@ -34,7 +34,7 @@ class Wishlist extends \Core\Controller
       $items = (new \Models\Wishlist)->getAll($_SESSION['user_id']);
     }
 
-    $this->view_page($this->view, [
+    $this->view_user_page($this->view, [
       'items' => $items,
     ]);
   }

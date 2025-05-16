@@ -32,7 +32,7 @@ class Checkout extends \Core\Controller
     $subtotal = $cart['total_price'];
     $totalPrice = $subtotal + $subtotal * $taxRate + $deliveryCost;
 
-    $this->view_page($this->view, [
+    $this->view_user_page($this->view, [
       'cart_items' => $cart['cart_items'],
       'subtotal' => $subtotal,
       'tax_rate' => $taxRate,

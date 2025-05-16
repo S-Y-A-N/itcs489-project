@@ -18,7 +18,7 @@ class PaymentGateway extends \Core\Controller
       if ($result) {
         $_SESSION['access_payment_success'] = true;
 
-        $this->view_page($this->view, [
+        $this->view_user_page($this->view, [
           'paymentId' => $result['paymentId'],
           'orderId' => $result['orderId'],
         ]);

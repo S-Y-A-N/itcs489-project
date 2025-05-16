@@ -31,7 +31,7 @@ class Info extends \Core\Controller
       header('Location: /');
     }
 
-    $this->view_page(view: $this->view);
+    $this->view_user_page(view: $this->view);
   }
 
 }

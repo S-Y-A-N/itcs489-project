@@ -34,7 +34,7 @@ class Cart extends \Core\Controller
   {
     $cart = (new \Models\Cart)->get();
 
-    $this->view_page($this->view, [
+    $this->view_user_page($this->view, [
       'cart_items' => $cart['cart_items'],
       'total_quantity' => $cart['total_quantity'],
       'total_price' => $cart['total_price']

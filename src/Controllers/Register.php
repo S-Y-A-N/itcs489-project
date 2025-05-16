@@ -21,7 +21,7 @@ class Register extends \Core\Controller
 
   private function index()
   {
-    $this->view_page($this->view, [
+    $this->view_user_page($this->view, [
       'errors' => $this->errors
     ]);
   }

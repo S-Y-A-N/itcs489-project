@@ -42,7 +42,7 @@ class ProductIndex extends \Core\Controller
 
 
     // Pass products and search term to the view
-    $this->view_page(view: $this->view, data: [
+    $this->view_user_page(view: $this->view, data: [
       'products' => $products,
       'title' => $title,
     ]);

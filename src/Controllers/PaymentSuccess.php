@@ -18,7 +18,7 @@ class PaymentSuccess extends \Core\Controller
     $paymentId = $_GET['paymentId'];
     $orderId = $_GET['orderId'];
 
-    $this->view_page($this->view, [
+    $this->view_user_page($this->view, [
       'paymentId' => $paymentId,
       'orderId' => $orderId,
     ]);

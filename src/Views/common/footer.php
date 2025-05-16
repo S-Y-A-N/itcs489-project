@@ -51,8 +51,8 @@
                 <ul class="nav flex-column">
                     <li class="nav-item mb-2"><a href="/faq" class="nav-link p-0 text-body-secondary">FAQ</a></li>
                     <li class="nav-item mb-2"><a href="/return-policy" class="nav-link p-0 text-body-secondary">Return Policy</a></li>
-                    <li class="nav-item mb-2"><a href="/sellers" class="nav-link p-0 text-body-secondary">Sellers</a></li>
-                    <li class="nav-item mb-2"><a href="/sell-with-us" class="nav-link p-0 text-body-secondary">Sell With Us</a></li>
+                    <li class="nav-item mb-2"><a href="/seller-portal" class="nav-link p-0 text-body-secondary">Seller Portal</a></li>
+                    <li class="nav-item mb-2"><a href="/admin-portal" class="nav-link p-0 text-body-secondary">Admin Portal</a></li>
                 </ul>
             </div>
 

@@ -38,7 +38,7 @@ class ProductShow extends \Core\Controller
       $product_model = new \Models\Product();
       $product = $product_model->get_id($product_id);
 
-      $this->view_page($this->view, [
+      $this->view_user_page($this->view, [
         'product' => $product,
         'errors' => $this->errors
       ]);

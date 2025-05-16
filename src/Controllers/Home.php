@@ -14,7 +14,7 @@ class Home extends \Core\Controller
     $product_model = new \Models\Product();
     $products = $product_model->get_all();
 
-    $this->view_page($this->view, [
+    $this->view_user_page($this->view, [
       'h1' => 'Online Shopping',
       'products' => $products
     ]);
