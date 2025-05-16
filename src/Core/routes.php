@@ -31,3 +31,12 @@ $router->post('/address', 'Address');
 
 // Card
 $router->post('/bank-card', 'BankCard');
+
+// Payment Gateway
+$router->post('/payment-gateway', 'PaymentGateway');
+// Payment success
+$router->get('/payment-success', 'PaymentSuccess');
+
+
+// Search
+$router->get('/products', 'Products/Index');

@@ -56,6 +56,25 @@ class Cart extends \Core\Model
     ];
   }
 
+  public function delete()
+  {
+    if (isset($_SESSION['user_id'])) {
+      $user_id = $_SESSION['user_id'];
+
+      $this->db->query("DELETE FROM cart_items WHERE user_id = :user_id", [
+        'user_id' => $user_id
+      ]);
+
+    } else {
+
+      unset($_COOKIE['cart']);
+      $_COOKIE['cart'] = [];
+
+    }
+
+    return true;
+  }
+
   // Adds an item to the cart
   public function add($data)
   {

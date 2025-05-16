@@ -27,9 +27,17 @@ class Checkout extends \Core\Controller
       exit();
     }
 
+    $taxRate = 0.1;
+    $deliveryCost = number_format(2, 2);
+    $subtotal = $cart['total_price'];
+    $totalPrice = $subtotal + $subtotal * $taxRate + $deliveryCost;
+
     $this->view_page($this->view, [
       'cart_items' => $cart['cart_items'],
-      'total_price' => $cart['total_price'],
+      'subtotal' => $subtotal,
+      'tax_rate' => $taxRate,
+      'delivery_cost' => $deliveryCost,
+      'total_price' => $totalPrice,
       'total_quantity' => $cart['total_quantity'],
       'addresses' => $addresses,
       'cards' => $cards,

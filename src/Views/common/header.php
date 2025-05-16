@@ -14,7 +14,7 @@
 
           <!-- Search bar -->
           <div class="w-75">
-            <form role="search" method="get" class="mb-0">
+            <form role="search" method="get" action="/products" class="mb-0">
               <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search for any product" name="search">
                 <button class="btn btn-primary" type="submit" id="search-btn"><i

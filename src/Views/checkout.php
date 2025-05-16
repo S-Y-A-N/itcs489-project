@@ -1,6 +1,7 @@
 <main class="container mt-5 mb-5 mb-lg-0 extend-vh">
   <h1 class="mb-3">Checkout</h1>
 
+  <p class="text-danger" id="addressError"></p>
   <div class="d-flex flex-column flex-lg-row gap-5">
     <div class="col-lg-8">
       <div class="card mb-3">
@@ -38,7 +39,7 @@
         </div>
       </div>
 
-
+      <p class="text-danger" id="paymentError"></p>
       <div class="card mb-3">
         <div class="card-header">
           <h5 class="mt-1">Payment Information</h5>
@@ -48,7 +49,7 @@
           <div class="d-flex flex-column gap-3 flex-md-row align-items-md-center gap-md-5">
 
             <div class="form-check">
-              <input class="form-check-input" name="paymentRadio" type="radio" id="cardRadio">
+              <input class="form-check-input" name="paymentRadio" type="radio" id="cardRadio" value="card">
               <label class="form-check-label" for="cardRadio">
                 <i class="bi bi-credit-card me-1"></i>
                 Credit/Debit Card
@@ -56,7 +57,7 @@
             </div>
 
             <div class="form-check">
-              <input class="form-check-input" name="paymentRadio" type="radio" id="benefitRadio">
+              <input class="form-check-input" name="paymentRadio" type="radio" id="benefitRadio" value="benefitpay">
               <label class="form-check-label" for="benefitRadio">
                 <i class="me-1"><b>B</b></i>
                 BenefitPay
@@ -64,7 +65,7 @@
             </div>
 
             <div class="form-check">
-              <input class="form-check-input" name="paymentRadio" type="radio" id="appleRadio">
+              <input class="form-check-input" name="paymentRadio" type="radio" id="appleRadio" value="applepay">
               <label class="form-check-label" for="appleRadio">
                 <i class="bi bi-apple me-1"></i>
                 Apple Pay
@@ -135,15 +136,15 @@
         <div>
           <div class="d-flex justify-content-between">
             <p>Subtotal</p>
-            <p class="card-text"><?= $total_price ?> BHD</p>
+            <p class="card-text"><?= $subtotal ?> BHD</p>
           </div>
           <div class="d-flex justify-content-between">
             <p>Shipping</p>
-            <p class="card-text">2.00 BHD</p>
+            <p class="card-text"><?= $delivery_cost ?> BHD</p>
           </div>
           <div class="d-flex justify-content-between">
             <p>Tax</p>
-            <p class="card-text"><?= $total_price * 0.1 ?> BHD</p>
+            <p class="card-text"><?= $subtotal * $tax_rate ?> BHD</p>
           </div>
         </div>
 
@@ -152,12 +153,19 @@
 
         <div class="d-flex justify-content-between fw-bold">
           <p>Total</p>
-          <p class="card-text" id="cartTotalPrice"><?= $total_price + $total_price * 0.1 + 2 ?> BHD</p>
+          <p class="card-text" id="cartTotalPrice"><?= $total_price ?> BHD</p>
         </div>
       </div>
 
       <div class="card-footer">
-        <button type="button" class="btn btn-danger w-100">Proceed to Payment</button>
+        <form id="payForm" method="POST" action="/payment-gateway">
+          <input type="hidden" name="addressId" value="">
+          <input type="hidden" name="paymentMethod" value="">
+          <input type="hidden" name="amount" value="<?= $total_price ?>">
+          <button type="submit" name="pay" class="btn btn-danger w-100" id="payBtn">
+            Proceed to Payment
+          </button>
+        </form>
       </div>
     </div>
 
@@ -171,12 +179,15 @@
 
 
 <script>
-  const paymentRadio = document.querySelectorAll('[name=paymentRadio]');
+  const paymentRadio = document.querySelectorAll('input[name="paymentRadio"]');
   const cardRadio = document.querySelector('#cardRadio');
   const cards = document.querySelector('#cards');
+  let paymentChoice;
 
   for (let i = 0; i < paymentRadio.length; i++) {
     paymentRadio[i].addEventListener('click', function () {
+      paymentError.textContent = '';
+      paymentChoice = paymentRadio[i].value;
       if (cardRadio.checked) {
         cards.removeAttribute('hidden');
       } else {
@@ -189,13 +200,15 @@
   // For choosing address from the list
   const addressBtns = document.querySelectorAll('.addressBtn');
   const selectedAddressInfo = document.querySelector('#selectedAddressInfo');
-
+  let addressId = -1, cardId = -1;
   addressBtns.forEach((btn) => {
 
     btn.addEventListener('click', (e) => {
       e.preventDefault();
 
-      const addressId = e.target.id;
+      addressError.textContent = '';
+
+      addressId = e.target.id;
       console.log('Address ID:', addressId);
 
       addressBtns.forEach((btn) => {
@@ -239,7 +252,9 @@
     btn.addEventListener('click', (e) => {
       e.preventDefault();
 
-      const cardId = e.target.id;
+      paymentError.textContent = '';
+
+      cardId = e.target.id;
       console.log('Card ID:', cardId);
 
       cardBtns.forEach((btn) => {
@@ -266,4 +281,31 @@
         .catch(error => console.error('Error:', error));
     });
   });
+
+  const addressError = document.querySelector('#addressError');
+  const paymentError = document.querySelector('#paymentError');
+  const payBtn = document.querySelector('#payBtn');
+  payBtn.addEventListener('click', (e) => {
+
+    console.log('Address ID:', addressId);
+    console.log('Card ID:', cardId);
+
+    if (paymentChoice === undefined) {
+      e.preventDefault();
+      paymentError.textContent = 'Please choose a payment method';
+    } else if (paymentChoice === 'card' && cardId === -1) {
+      e.preventDefault();
+      paymentError.textContent = 'Please add or select an existing card';
+    } else {
+      document.querySelector('#payForm > input[name="paymentMethod"]').value = paymentChoice;
+    }
+
+    if (addressId === -1) {
+      e.preventDefault();
+      addressError.textContent = 'Please add or select an existing address';
+    } else {
+      document.querySelector('#payForm > input[name="addressId"]').value = addressId;
+    }
+  });
+
 </script>
