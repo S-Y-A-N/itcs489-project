@@ -2,9 +2,9 @@
 
 namespace Controllers;
 
-class Cart extends \Core\Controller
+class Wishlist extends \Core\Controller
 {
-  private $view = 'cart';
+  private $view = 'wishlist';
 
   public function __construct()
   {
@@ -18,9 +18,6 @@ class Cart extends \Core\Controller
         case 'remove':
           $this->remove_item($data);
           break;
-        case 'update':
-          $this->update_quantity($data);
-          break;
         default:
           $this->index();
       }
@@ -32,26 +29,28 @@ class Cart extends \Core\Controller
 
   private function index()
   {
-    $cart = (new \Models\Cart)->get();
+    $items = [];
+    if (isset($_SESSION['user_id'])) {
+      $items = (new \Models\Wishlist)->getAll($_SESSION['user_id']);
+    }
 
     $this->view_page($this->view, [
-      'cart_items' => $cart['cart_items'],
-      'total_quantity' => $cart['total_quantity'],
-      'total_price' => $cart['total_price']
+      'items' => $items,
     ]);
-  }
-
-  public function update_quantity($data)
-  {
-    (new \Models\Cart())->updateQuantity($data);
   }
 
   public function remove_item($data)
   {
-    (new \Models\Cart())->removeItem($data);
+    $result = (new \Models\Wishlist())->delete($_SESSION['user_id'], $data['product_id']);
+
+    if ($result) {
+      echo json_encode(['success' => true]);
+    } else {
+      echo json_encode(['success' => false]);
+    }
   }
 
 
 }
 
-$controller = new Cart();
+$controller = new Wishlist();

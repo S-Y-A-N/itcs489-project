@@ -3,7 +3,6 @@
 namespace Models;
 
 use PDOException;
-use Meilisearch\Client;
 
 
 class Product extends \Core\Model
@@ -11,6 +10,20 @@ class Product extends \Core\Model
   public function calculateNewPrice($price, $offer): float
   {
     return $price - $price * $offer;
+  }
+
+  public function extendPriceAndBrand($products)
+  {
+    foreach ($products as &$p) {
+      $p['new_price'] = number_format($this->calculateNewPrice($p['price'], $p['offer']), 2);
+      $p['offer'] = number_format($p['offer'], 2);
+
+      $seller = (new \Models\Seller())->getSeller($p['seller_id']);
+      $p['brand_name'] = $seller['brand_name'];
+    }
+    unset($p);
+
+    return $products;
   }
 
   public function searchProducts($searchTerm)
@@ -38,14 +51,8 @@ WHERE MATCH(p.name, p.description) AGAINST (:search IN NATURAL LANGUAGE MODE)
         'search' => $searchTerm
       ])->fetchAll();
 
-      foreach ($products as &$product) {
-        $product['new_price'] = number_format($this->calculateNewPrice($product['price'], $product['offer']), 2);
-        $product['offer'] = number_format($product['offer'], 2);
+      $products = $this->extendPriceAndBrand($products);
 
-        $seller = (new \Models\Seller())->get_seller($product['seller_id']);
-        $product['brand_name'] = $seller['brand_name'];
-      }
-      unset($product);
 
       return $products;
     }
@@ -75,12 +82,7 @@ WHERE MATCH(p.name, p.description) AGAINST (:search IN NATURAL LANGUAGE MODE)
 
     $seller_model = new \Models\Seller();
 
-    foreach ($products as &$p) {
-      $seller = $seller_model->get_seller($p['seller_id']);
-      $p['new_price'] = $p['price'] - $p['price'] * $p['offer'];
-      $p['brand_name'] = $seller['brand_name'];
-    }
-    unset($p);
+    $products = $this->extendPriceAndBrand($products);
 
     return $products;
   }
@@ -118,21 +120,10 @@ WHERE MATCH(p.name, p.description) AGAINST (:search IN NATURAL LANGUAGE MODE)
       'category' => $categoryCodeName,
     ])->fetchAll();
 
-    foreach ($products as &$product) {
-      $product['new_price'] = number_format($this->calculateNewPrice($product['price'], $product['offer']), 2);
-      $product['offer'] = number_format($product['offer'], 2);
+    $products = $this->extendPriceAndBrand($products);
 
-      $seller = (new \Models\Seller())->get_seller($product['seller_id']);
-      $product['brand_name'] = $seller['brand_name'];
-    }
-    unset($product);
 
     return $products;
-  }
-
-  public function get_seller()
-  {
-
   }
 
   public function create()

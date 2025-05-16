@@ -61,8 +61,8 @@
 
   <div class="toast-container position-fixed bottom-0 end-0 p-3">
 
-    <!-- Error Toast message -->
-    <div id="errorToast" class="toast align-items-center text-bg-warning" role="alert" aria-live="assertive"
+    <!-- Cart Error Toast message -->
+    <div id="cartErrorToast" class="toast align-items-center text-bg-warning" role="alert" aria-live="assertive"
       aria-atomic="true">
       <div class="position-relative">
         <div class="fs-4 m-2 position-absolute top-0 start-0">
@@ -80,8 +80,8 @@
       </div>
     </div>
 
-    <!-- Success Toast message -->
-    <div id="successToast" class="toast align-items-center text-bg-success" role="alert" aria-live="assertive"
+    <!-- Cart Success Toast message -->
+    <div id="cartSuccessToast" class="toast align-items-center text-bg-success" role="alert" aria-live="assertive"
       aria-atomic="true">
       <div class="position-relative">
         <div class="fs-4 m-2 position-absolute top-0 start-0">
@@ -99,6 +99,44 @@
       </div>
     </div>
 
+    <!-- Wishlist Error Toast message -->
+    <div id="wishlistErrorToast" class="toast align-items-center text-bg-warning" role="alert" aria-live="assertive"
+      aria-atomic="true">
+      <div class="position-relative">
+        <div class="fs-4 m-2 position-absolute top-0 start-0">
+          <i class="bi bi-exclamation-circle-fill"></i>
+          <strong>Warning</strong>
+        </div>
+        <button type="button" class="btn-close m-2 position-absolute top-0 end-0" data-bs-theme="light"
+          data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body mt-5 fs-6">
+        <!-- message. -->
+      </div>
+      <div class="d-flex justify-content-end">
+        <a href="/wishlist" type="button" class="btn btn-dark m-2">View Wishlist</a>
+      </div>
+    </div>
+
+    <!-- Wishlist Success Toast message -->
+    <div id="wishlistSuccessToast" class="toast align-items-center text-bg-success" role="alert" aria-live="assertive"
+      aria-atomic="true">
+      <div class="position-relative">
+        <div class="fs-4 m-2 position-absolute top-0 start-0">
+          <i class="bi bi-check-circle-fill"></i>
+          <strong>Success</strong>
+        </div>
+        <button type="button" class="btn-close m-2 position-absolute top-0 end-0" data-bs-theme="dark"
+          data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body mt-5 fs-6">
+        <!-- message. -->
+      </div>
+      <div class="d-flex justify-content-end">
+        <a href="/wishlist" type="button" class="btn btn-light m-2">View Wishlist</a>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -109,6 +147,7 @@
   const quantityInput = document.querySelector('#quantity');
   const quantityPrice = document.querySelector('#quantityPrice');
   const cartSubmit = document.querySelector('#cartSubmit');
+  const wishlistSubmit = document.querySelector('#wishlistSubmit');
 
   quantityInput.addEventListener('change', () => {
     let basePrice = Number(document.querySelector('#basePrice').textContent);
@@ -137,12 +176,50 @@
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          const successToast = document.querySelector('#successToast');
+          const successToast = document.querySelector('#cartSuccessToast');
           const toast = bootstrap.Toast.getOrCreateInstance(successToast);
           toast.show();
         } else {
-          const errorToast = document.querySelector('#errorToast');
+          const errorToast = document.querySelector('#cartErrorToast');
           const toast = bootstrap.Toast.getOrCreateInstance(errorToast);
+          toast.show();
+        }
+      })
+      .catch(error => console.error('Error:', error));
+
+  }, true);
+
+
+  wishlistSubmit.addEventListener('click', () => {
+
+    let data = {
+      product_id: productId,
+      wishlist: true
+    };
+
+    fetch('/product', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          const successToast = document.querySelector('#wishlistSuccessToast');
+          const toastMsg = successToast.querySelector('.toast-body');
+          const toast = bootstrap.Toast.getOrCreateInstance(successToast);
+          console.log(data.message);
+          toastMsg.textContent = data.message;
+          toast.show();
+        } else {
+          const errorToast = document.querySelector('#wishlistErrorToast');
+          const toastMsg = errorToast.querySelector('.toast-body');
+          const toast = bootstrap.Toast.getOrCreateInstance(errorToast);
+          console.log(data.message);
+
+          toastMsg.textContent = data.message;
           toast.show();
         }
       })

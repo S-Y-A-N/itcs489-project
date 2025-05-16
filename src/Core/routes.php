@@ -55,3 +55,10 @@ $router->get('/return-policy', 'Info');
 $router->get('/terms-and-conditions', 'Info');
 $router->get('/privacy-policy', 'Info');
 $router->get('/team', 'Info');
+
+// Contact form
+$router->get('/contact', 'Contact');
+
+// Wishlist
+$router->get('/wishlist', 'Wishlist');
+$router->post('/wishlist', 'Wishlist');

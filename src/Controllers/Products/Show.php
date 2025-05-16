@@ -15,18 +15,20 @@ class ProductShow extends \Core\Controller
 
     if (str_contains($content_type, 'application/json') && !empty($input)) {
       $data = json_decode($input, true);
-      $this->add_to_cart($data);
+
+      if (isset($data['cart'])) {
+        $this->add_to_cart($data);
+
+      } else if (isset($data['wishlist'])) {
+        $this->add_to_wishlist($data);
+
+      }
+
+
     } else {
       $this->index();
     }
   }
-
-
-
-
-
-
-
 
   private function index()
   {
@@ -46,31 +48,20 @@ class ProductShow extends \Core\Controller
   }
 
 
-
-
-
-
-
-
-
-
-
   public function add_to_cart($data)
   {
     (new \Models\Cart)->add($data);
   }
 
 
-
-
-
-
-
-
-
-  public function add_to_wishlist()
+  public function add_to_wishlist($data)
   {
-
+    if (isset($_SESSION['user_id'])) {
+      (new \Models\Wishlist())->add($_SESSION['user_id'], $data['product_id']);
+    } else {
+      echo json_encode(['success' => false, 'message' => 'Please login to add items to your wishlist.']);
+      return false;
+    }
   }
 
 }
