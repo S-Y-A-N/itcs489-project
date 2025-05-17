@@ -44,5 +44,6 @@
       }
     }
   </script>
+  <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/seller.css">
 </head>

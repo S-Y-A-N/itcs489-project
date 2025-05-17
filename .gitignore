@@ -2,4 +2,3 @@ node_modules
 .vscode
 *.css
 *.css.map
-vendor

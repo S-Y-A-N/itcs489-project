@@ -3,6 +3,7 @@
 namespace Models;
 
 use Core\Validator;
+use PDOException;
 
 class Seller extends \Core\Model
 {
@@ -11,7 +12,7 @@ class Seller extends \Core\Model
   public function getSellerWithCredentials($email, $password)
   {
 
-    $query = $this->db->query("SELECT seller_id, password FROM sellers WHERE email = :email", [
+    $query = $this->db->query("SELECT * FROM sellers WHERE email = :email", [
       'email' => $email,
     ]);
 
@@ -99,5 +100,171 @@ class Seller extends \Core\Model
   public function delete()
   {
 
+  }
+
+  public function getAllCustomers($seller_id)
+  {
+    try {
+      $customers = $this->db->query("
+      SELECT DISTINCT u.*
+        FROM orders o
+          JOIN order_items oi ON o.order_id = oi.order_id
+          JOIN products p ON oi.product_id = p.product_id
+          JOIN users u ON o.user_id = u.user_id
+            WHERE p.seller_id = :seller_id;
+    ", [
+        'seller_id' => $seller_id
+
+      ])->fetchAll();
+
+      return $customers;
+
+    } catch (PDOException $e) {
+      return false;
+    }
+  }
+
+  public function getAllOrders($seller_id)
+  {
+    try {
+      $orders = $this->db->query("
+      SELECT o.*,
+      SUM(oi.price * oi.quantity) AS order_revenue
+      FROM orders o
+        JOIN order_items oi ON o.order_id = oi.order_id
+        JOIN products p ON oi.product_id = p.product_id
+      WHERE p.seller_id = :seller_id
+      GROUP BY o.order_id, o.user_id;
+    ", [
+        'seller_id' => $seller_id
+      ])->fetchAll();
+
+      return $orders;
+
+    } catch (PDOException $e) {
+      return false;
+    }
+  }
+
+  public function getOrdersByStatus($seller_id) {
+        try {
+      $ordersByStatus = $this->db->query("
+      SELECT 
+        o.status,
+        COUNT(DISTINCT o.order_id) AS total_orders,
+      FROM orders o
+        JOIN order_items oi ON o.order_id = oi.order_id
+        JOIN products p ON oi.product_id = p.product_id
+      WHERE p.seller_id = :seller_id
+      GROUP BY o.status;
+    ", [
+        'seller_id' => $seller_id
+      ])->fetchAll();
+
+      return $ordersByStatus;
+
+    } catch (PDOException $e) {
+      return false;
+    }
+  }
+
+  public function getTotalRevenue($seller_id)
+  {
+    try {
+      $totalRevenue = $this->db->query("
+      SELECT SUM(oi.price * oi.quantity) AS total_revenue
+      FROM order_items oi
+      JOIN products p ON oi.product_id = p.product_id
+      WHERE p.seller_id = :seller_id;
+    ", [
+        'seller_id' => $seller_id
+      ])->fetch()['total_revenue'];
+
+      $totalRevenue = number_format($totalRevenue, 2);
+
+      return $totalRevenue;
+
+    } catch (PDOException $e) {
+      return false;
+    }
+  }
+
+  public function getMonthlyRevenue($seller_id)
+  {
+    try {
+      $monthlyRevenue = $this->db->query("
+        WITH months AS (
+          SELECT DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL n MONTH), '%Y-%m') AS month
+          FROM (
+            SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3
+            UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6
+            UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9
+            UNION ALL SELECT 10 UNION ALL SELECT 11
+          ) AS nums
+        ),
+        revenue AS (
+          SELECT
+            DATE_FORMAT(o.timestamp, '%Y-%m') AS month,
+            SUM(oi.price * oi.quantity) AS monthly_revenue
+          FROM order_items oi
+          JOIN products p ON oi.product_id = p.product_id
+          JOIN orders o ON oi.order_id = o.order_id
+          WHERE p.seller_id = :seller_id
+            AND o.timestamp >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
+          GROUP BY DATE_FORMAT(o.timestamp, '%Y-%m')
+        )
+        SELECT
+          m.month,
+          DATE_FORMAT(STR_TO_DATE(m.month, '%Y-%m'), '%b %Y') AS month_label,
+          COALESCE(r.monthly_revenue, 0) AS monthly_revenue
+        FROM months m
+        LEFT JOIN revenue r ON m.month = r.month
+        ORDER BY m.month;
+    ", [
+        'seller_id' => $seller_id
+      ])->fetchAll();
+
+      return $monthlyRevenue;
+
+    } catch (PDOException $e) {
+      return $e;
+    }
+  }
+
+  public function getYearlyRevenue($seller_id)
+  {
+    try {
+      $yearlyRevenue = $this->db->query("
+        WITH years AS (
+          SELECT YEAR(CURDATE()) AS year
+          UNION ALL
+          SELECT YEAR(CURDATE()) - 1
+          UNION ALL
+          SELECT YEAR(CURDATE()) - 2
+          UNION ALL
+          SELECT YEAR(CURDATE()) - 3
+          UNION ALL
+          SELECT YEAR(CURDATE()) - 4
+        )
+
+        SELECT
+          y.year,
+          COALESCE(SUM(oi.price * oi.quantity), 0) AS yearly_revenue
+        FROM years y
+        LEFT JOIN orders o ON YEAR(o.timestamp) = y.year
+        LEFT JOIN order_items oi ON oi.order_id = o.order_id
+        LEFT JOIN products p ON oi.product_id = p.product_id
+          AND p.seller_id = :seller_id
+        GROUP BY y.year
+        ORDER BY y.year;
+    ", [
+        'seller_id' => $seller_id
+      ])->fetchAll();
+
+      return $yearlyRevenue;
+
+    } catch (PDOException $e) {
+      return $e;
+    }
   }
 }

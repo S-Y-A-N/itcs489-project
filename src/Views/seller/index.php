@@ -1,29 +1,18 @@
-
 <main class="flex-1 overflow-auto">
     <!-- Header -->
     <header class="bg-indigo-100 shadow-sm border-b border-indigo-200">
-        <div class="flex items-center justify-between px-8 py-5">
+        <div class="flex items-center justify-between p-7 bg-indigo-100 border-b border-indigo-200">
             <div class="flex items-center">
-                <h1 class="text-xl font-bold">Supplier Dashboard</h1>
-            </div>
-            <div class="flex items-center space-x-4">
-                <div class="flex items-center space-x-2">
-                    <div
-                        class="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-white font-medium">
-                        SN
-                    </div>
-                    <span class="text-sm font-medium">Supplier Name</span>
-                    <i class="fas fa-chevron-down text-gray-400 text-xs"></i>
-                </div>
+                <h1 class="text-xl font-bold">Seller Dashboard</h1>
             </div>
         </div>
     </header>
-
+    <?= dump($ordersByStatus) ?>
     <!-- Dashboard Content -->
     <div class="p-8">
         <!-- Welcome Banner -->
         <div class="bg-gradient-to-r from-primary to-secondary rounded-xl p-6 mb-8 text-white">
-            <h2 class="text-xl font-bold mb-2">Welcome, Supplier Name!</h2>
+            <h2 class="text-xl font-bold mb-2">Welcome, <?= $_SESSION['brand_name'] ?>!</h2>
             <p class="opacity-90">Here's what's happening with your business today.</p>
         </div>
 
@@ -34,7 +23,7 @@
                 <div class="flex justify-between items-start">
                     <div data-metric="customers">
                         <p class="text-sm font-medium text-gray-500 mb-1">Total Customers</p>
-                        <h3 class="text-2xl font-bold">9,999</h3>
+                        <h3 class="text-2xl font-bold"><?= count($customers) ?></h3>
                     </div>
                     <div class="p-3 rounded-lg bg-lime-100 text-lime-500">
                         <i class="fas fa-users"></i>
@@ -53,7 +42,7 @@
                 <div class="flex justify-between items-start">
                     <div data-metric="customers">
                         <p class="text-sm font-medium text-gray-500 mb-1">Total Orders</p>
-                        <h3 class="text-2xl font-bold">9,999</h3>
+                        <h3 class="text-2xl font-bold"><?= count($orders) ?></h3>
                     </div>
                     <div class="p-3 rounded-lg bg-pink-100 text-pink-500">
                         <i class="fas fa-shopping-cart"></i>
@@ -73,7 +62,7 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="text-sm font-medium text-gray-500 mb-1">Total Revenue</p>
-                        <h3 class="text-2xl font-bold">BH 45,320</h3>
+                        <h3 class="text-2xl font-bold">BHD <?= $totalRevenue ?></h3>
                     </div>
                     <div class="p-3 rounded-lg bg-yellow-100 text-yellow-500">
                         <i class="fas fa-dollar-sign"></i>
@@ -201,10 +190,10 @@
     document.addEventListener('DOMContentLoaded', function () {
         // Chart data
         const monthlyData = {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            labels: <?= json_encode(array_column($monthlyRevenue, 'month_label')) ?>,
             datasets: [{
                 label: 'Revenue (BHD)',
-                data: [4100, 3400, 4600, 3800, 4400, 3200, 3900, 4200, 3800, 4500, 4100, 4800],
+                data: <?= json_encode(array_map(fn($row) => (float) $row['monthly_revenue'], $monthlyRevenue)) ?>,
                 backgroundColor: '#4F46E5',
                 borderColor: '#4F46E5',
                 borderWidth: 1,
@@ -214,10 +203,10 @@
         };
 
         const yearlyData = {
-            labels: ['2020', '2021', '2022', '2023'],
+            labels: <?= json_encode(array_column($yearlyRevenue, 'year')) ?>,
             datasets: [{
                 label: 'Annual Revenue (BHD)',
-                data: [32000, 38000, 42000, 48000],
+                data: <?= json_encode(array_map(fn($row) => (float) $row['yearly_revenue'], $yearlyRevenue)) ?>,
                 backgroundColor: '#4F46E5',
                 borderColor: '#4F46E5',
                 borderWidth: 1,

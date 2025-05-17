@@ -2,7 +2,7 @@
 <main class="flex-1 overflow-auto">
     <!-- Header -->
     <header class="bg-indigo-100 shadow-sm border-b border-indigo-200">
-        <div class="flex items-center justify-between px-8 py-5">
+        <div class="flex items-center justify-between p-6 bg-indigo-100 border-b border-indigo-200">
             <div class="flex items-center">
                 <h1 class="text-xl font-bold">Analytics Reports</h1>
             </div>

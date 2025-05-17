@@ -2,11 +2,9 @@
 
 namespace Controllers;
 
-use Core\Validator;
-
 class Logout extends \Core\Controller
 {
-  private $view = 'logout';
+  private $view = 'seller/portal';
 
   public function __construct()
   {
@@ -17,7 +15,7 @@ class Logout extends \Core\Controller
 
   private function index()
   {
-    $this->view_user_page($this->view);
+    render($this->view);
   }
 
   private function logout()

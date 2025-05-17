@@ -75,6 +75,7 @@ $router->get('/seller/account', 'Seller/Settings');
 $router->get('/seller/help', 'Seller/Help');
 
 // Admin Portal
+$router->get('/seller/logout', 'Seller/Logout');
 $router->get('/admin-portal', 'Seller/Portal');
 $router->post('/admin-portal', 'Seller/Portal');
 $router->get('/seller/dashboard', 'Seller/Index');

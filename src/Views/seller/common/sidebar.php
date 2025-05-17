@@ -1,10 +1,6 @@
 <aside class="w-64 bg-white shadow-sm border-r border-indigo-200 flex flex-col">
   <div class="p-6 bg-indigo-100 border-b border-indigo-200">
-    <div class="flex items-center">
-      <div>
-        <?php render('common/brand', ['font_size' => 4, 'logo_size' => 30]) ?>
-      </div>
-    </div>
+    <?php render('seller/common/brand', ['font_size' => 4, 'logo_size' => 30]) ?>
   </div>
 
   <nav id="sidebarNav" class="flex-1 p-4 overflow-y-auto">
@@ -64,6 +60,11 @@
             class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100">
             <i class="fas fa-question-circle mr-3"></i>
             Help Center
+          </a>
+          <a href="/seller/logout"
+            class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-lg text-red-600 hover:bg-gray-100">
+            <i class=""></i>
+            Log out
           </a>
         </li>
       </ul>

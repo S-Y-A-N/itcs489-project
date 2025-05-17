@@ -47,6 +47,8 @@ class Portal extends \Core\Controller
   private function create_session($seller)
   {
     $_SESSION['seller_id'] = $seller['seller_id'];
+    $_SESSION['brand_name'] = $seller['brand_name'];
+    $_SESSION['email'] = $seller['email'];
     header('Location: /seller/dashboard');
   }
 }
