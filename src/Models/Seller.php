@@ -172,7 +172,7 @@ class Seller extends \Core\Model
         'seller_id' => $seller_id
       ])->fetch()['total_revenue'];
 
-      $totalRevenue = number_format($totalRevenue, 2);
+      $totalRevenue = number_format($totalRevenue ?? 0, 2);
 
       return $totalRevenue;
 

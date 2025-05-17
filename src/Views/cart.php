@@ -8,7 +8,7 @@
 
 <?php else : ?>
 
-<main class="container mt-5">
+<main class="container mt-5 extend-vh">
 
   <h1>My Cart</h1>
   <p class="lead text-secondary" id="cartTotalQuantity">Cart (<?= $total_quantity ?> items)</p>

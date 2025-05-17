@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container mt-5 extend-vh">
   <h1 class="mb-4">Register</h1>
 
   <p class="text-info-emphasis"><?= $errors['message'] ?? "" ?></p>

@@ -158,7 +158,7 @@
       </div>
 
       <div class="card-footer">
-        <form id="payForm" method="POST" action="/payment-gateway">
+        <form id="payForm" method="POST" action="/payment-gateway" class="m-0">
           <input type="hidden" name="addressId" value="">
           <input type="hidden" name="paymentMethod" value="">
           <input type="hidden" name="amount" value="<?= $total_price ?>">

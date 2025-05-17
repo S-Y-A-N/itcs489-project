@@ -1,6 +1,6 @@
-<div class="container mt-5 d-flex justify-content-between align-items-lg-stretch gap-5 flex-column-reverse flex-lg-row">
+<div class="container mt-5 d-flex justify-content-center align-items-center gap-5 flex-column-reverse flex-lg-row extend-vh">
 
-  <div class="d-flex flex-column justify-content-between">
+  <div class="d-flex flex-column gap-3">
     <h1 class="mt-3">Login to your Cheapy account</h1>
     <p class="fs-3 lead">Don't have an account? Join us now to shop for cheap & high quality clothing, furniture, and
       more!</p>
@@ -8,8 +8,6 @@
   </div>
 
   <hr>
-
-
 
   <div class="w-100">
     <p class="text-info-emphasis"><?= $errors['message'] ?? "" ?></p>
