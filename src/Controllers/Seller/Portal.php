@@ -41,7 +41,6 @@ class Portal extends \Core\Controller
     $this->errors = $model->errors;
     if ($seller)
       $this->create_session($seller);
-    $this->index();
   }
 
   private function create_session($seller)

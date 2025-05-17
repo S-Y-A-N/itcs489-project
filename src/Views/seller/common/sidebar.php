@@ -1,6 +1,6 @@
 <aside class="w-64 bg-white shadow-sm border-r border-indigo-200 flex flex-col">
   <div class="p-6 bg-indigo-100 border-b border-indigo-200">
-    <?php render('seller/common/brand', ['font_size' => 4, 'logo_size' => 30]) ?>
+        <?php render('admin/common/brand', ['logo_size' => 30]) ?>
   </div>
 
   <nav id="sidebarNav" class="flex-1 p-4 overflow-y-auto">

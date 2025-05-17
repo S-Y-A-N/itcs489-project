@@ -73,6 +73,7 @@ $router->get('/seller/customers', 'Seller/Customers');
 $router->get('/seller/reports', 'Seller/Reports');
 $router->get('/seller/account', 'Seller/Settings');
 $router->get('/seller/help', 'Seller/Help');
+$router->get('/seller/logout', 'Seller/Logout');
 
 // Admin Portal
 $router->get('/admin/logout', 'Admin/Logout');
