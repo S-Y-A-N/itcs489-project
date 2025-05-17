@@ -75,13 +75,16 @@ $router->get('/seller/account', 'Seller/Settings');
 $router->get('/seller/help', 'Seller/Help');
 
 // Admin Portal
-$router->get('/seller/logout', 'Seller/Logout');
-$router->get('/admin-portal', 'Seller/Portal');
-$router->post('/admin-portal', 'Seller/Portal');
-$router->get('/seller/dashboard', 'Seller/Index');
-$router->get('/seller/orders', 'Seller/Orders');
-$router->get('/seller/products', 'Seller/Products');
-$router->get('/seller/customers', 'Seller/Customers');
-$router->get('/seller/reports', 'Seller/Reports');
+$router->get('/admin/logout', 'Admin/Logout');
+$router->get('/admin-portal', 'Admin/Portal');
+$router->post('/admin-portal', 'Admin/Portal');
+
+$router->get('/admin/dashboard', 'Admin/Dashboard');
+$router->get('/admin/orders', 'Admin/Orders');
+$router->get('/admin/products', 'Admin/Products');
+$router->get('/admin/customers', 'Admin/Customers');
+$router->get('/admin/suppliers', 'Admin/Suppliers');
+$router->get('/admin/reports', 'Admin/Reports');
+$router->get('/admin/authorization', 'Admin/Authorization');
 $router->get('/admin/account', 'Admin/Settings');
-$router->get('/seller/help', 'Seller/Help');
+$router->get('/admin/help', 'Admin/Help');

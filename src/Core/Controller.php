@@ -16,6 +16,10 @@ class Controller
     include source_path("Views/seller/common/template.php");
   }
 
+  public function view_admin_page($view, $data = []) {
+        include source_path("Views/admin/common/template.php");
+  }
+
   public function handle_request($input)
   {
     $data = json_decode($input, true);

@@ -19,6 +19,7 @@
         </div>
     </header>
 
+
     <!-- Orders Content -->
     <div class="p-8 space-y-6">
         <!-- Filters -->
@@ -120,81 +121,26 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <!-- Sample row 1 -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#ORD-2023-001</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$149.99</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">May 15, 2023</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Completed</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">John Smith</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <button class="text-primary-600 hover:text-primary-900 mr-3">View</button>
-                            </td>
-                        </tr>
-                        <!-- Sample row 2 -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#ORD-2023-002</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$89.50</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">May 14, 2023</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Processing</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Sarah Johnson</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <button class="text-primary-600 hover:text-primary-900 mr-3">View</button>
-                            </td>
-                        </tr>
-                        <!-- Sample row 3 -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#ORD-2023-003</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$245.00</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">May 13, 2023</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Shipped</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Michael Brown</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">5</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <button class="text-primary-600 hover:text-primary-900 mr-3">View</button>
-                            </td>
-                        </tr>
-                        <!-- Sample row 4 -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#ORD-2023-004</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$75.25</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">May 12, 2023</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Cancelled</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Emily Davis</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <button class="text-primary-600 hover:text-primary-900 mr-3">View</button>
-                            </td>
-                        </tr>
-                        <!-- Sample row 5 -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#ORD-2023-005</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$199.99</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">May 11, 2023</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800">Pending</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">David Wilson</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">4</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <button class="text-primary-600 hover:text-primary-900 mr-3">View</button>
-                            </td>
-                        </tr>
+                        <?php foreach ($orders as $o): ?>
+                            <!-- Sample row 1 -->
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    #<?= $o['order_id'] ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">BHD
+                                    <?= number_format($o['order_revenue'], 2) ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= $o['timestamp'] ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800"><?= ucfirst($o['status']) ?></span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= $o['customer_name'] ?>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= $o['quantity'] ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <button class="text-primary-600 hover:text-primary-900 mr-3">View</button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
@@ -203,8 +149,7 @@
                 <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                     <div>
                         <p class="text-sm text-gray-700">
-                            Showing <span class="font-medium">1</span> to <span class="font-medium">5</span> of <span
-                                class="font-medium">24</span> results
+                            Showing <span class="font-medium"><?= count($orders) ?></span> results
                         </p>
                     </div>
                     <div>

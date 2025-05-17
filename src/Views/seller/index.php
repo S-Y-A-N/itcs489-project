@@ -7,7 +7,7 @@
             </div>
         </div>
     </header>
-    <?= dump($ordersByStatus) ?>
+
     <!-- Dashboard Content -->
     <div class="p-8">
         <!-- Welcome Banner -->
@@ -121,8 +121,8 @@
                             class="w-10 h-10 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center mx-auto mb-2">
                             <i class="fas fa-sync-alt"></i>
                         </div>
-                        <span class="text-sm font-medium">Processing</span>
-                        <span class="text-xs text-gray-500 mt-1">24 orders</span>
+                        <span class="text-sm font-medium">New</span>
+                        <span class="text-xs text-gray-500 mt-1"><?= count($ordersByStatus['new'] ?? []) ?> orders</span>
                     </div>
 
                     <!-- On Hold -->
@@ -133,7 +133,7 @@
                             <i class="ri-error-warning-line"></i>
                         </div>
                         <span class="text-sm font-medium">On Hold</span>
-                        <span class="text-xs text-gray-500 mt-1">8 orders</span>
+                        <span class="text-xs text-gray-500 mt-1"><?= count($ordersByStatus['hold'] ?? []) ?> orders</span>
                     </div>
 
                     <!-- Shipped -->
@@ -144,29 +144,7 @@
                             <i class="ri-truck-line"></i>
                         </div>
                         <span class="text-sm font-medium">Shipped</span>
-                        <span class="text-xs text-gray-500 mt-1">42 orders</span>
-                    </div>
-
-                    <!-- Delivered -->
-                    <div
-                        class="p-3 rounded-lg bg-purple-50 hover:bg-purple-100 text-center transition-colors flex flex-col items-center justify-center">
-                        <div
-                            class="w-10 h-10 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <i class="ri-check-double-line"></i>
-                        </div>
-                        <span class="text-sm font-medium">Delivered</span>
-                        <span class="text-xs text-gray-500 mt-1">36 orders</span>
-                    </div>
-
-                    <!-- Cancelled -->
-                    <div
-                        class="p-3 rounded-lg bg-red-50 hover:bg-red-100 text-center transition-colors flex flex-col items-center justify-center">
-                        <div
-                            class="w-10 h-10 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <i class="ri-prohibited-2-line"></i>
-                        </div>
-                        <span class="text-sm font-medium">Cancelled</span>
-                        <span class="text-xs text-gray-500 mt-1">5 orders</span>
+                        <span class="text-xs text-gray-500 mt-1"><?= count($ordersByStatus['shipped'] ?? []) ?> orders</span>
                     </div>
 
                     <!-- Completed -->
@@ -176,8 +154,8 @@
                             class="w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-2">
                             <i class="ri-checkbox-circle-line"></i>
                         </div>
-                        <span class="text-sm font-medium">Completed</span>
-                        <span class="text-xs text-gray-500 mt-1">128 orders</span>
+                        <span class="text-sm font-medium">Closed</span>
+                        <span class="text-xs text-gray-500 mt-1"><?= count($ordersByStatus['closed'] ?? []) ?> orders</span>
                     </div>
                 </div>
             </div>

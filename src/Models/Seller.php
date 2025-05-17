@@ -129,10 +129,13 @@ class Seller extends \Core\Model
     try {
       $orders = $this->db->query("
       SELECT o.*,
-      SUM(oi.price * oi.quantity) AS order_revenue
+      SUM(oi.price * oi.quantity) AS order_revenue,
+      CONCAT(u.fname, ' ', u.lname) AS customer_name,
+      oi.quantity
       FROM orders o
         JOIN order_items oi ON o.order_id = oi.order_id
         JOIN products p ON oi.product_id = p.product_id
+        JOIN users u ON o.user_id = u.user_id
       WHERE p.seller_id = :seller_id
       GROUP BY o.order_id, o.user_id;
     ", [
@@ -146,26 +149,15 @@ class Seller extends \Core\Model
     }
   }
 
-  public function getOrdersByStatus($seller_id) {
-        try {
-      $ordersByStatus = $this->db->query("
-      SELECT 
-        o.status,
-        COUNT(DISTINCT o.order_id) AS total_orders,
-      FROM orders o
-        JOIN order_items oi ON o.order_id = oi.order_id
-        JOIN products p ON oi.product_id = p.product_id
-      WHERE p.seller_id = :seller_id
-      GROUP BY o.status;
-    ", [
-        'seller_id' => $seller_id
-      ])->fetchAll();
-
-      return $ordersByStatus;
-
-    } catch (PDOException $e) {
-      return false;
+  public function getOrdersByStatus($orders)
+  {
+    $grouped = [];
+    foreach ($orders as $row) {
+      $status = $row['status'];
+      $grouped[$status][] = $row;
     }
+
+    return $grouped;
   }
 
   public function getTotalRevenue($seller_id)

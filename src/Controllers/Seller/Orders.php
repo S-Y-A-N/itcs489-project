@@ -18,7 +18,22 @@ class Index extends \Core\Controller
 
   private function index()
   {
-    $this->view_seller_page($this->view);
+    $sellerModel = new \Models\Seller();
+    $customers = $sellerModel->getAllCustomers($_SESSION['seller_id']);
+    $orders = $sellerModel->getAllOrders($_SESSION['seller_id']);
+    $totalRevenue = $sellerModel->getTotalRevenue($_SESSION['seller_id']);
+    $monthlyRevenue = $sellerModel->getMonthlyRevenue($_SESSION['seller_id']);
+    $yearlyRevenue = $sellerModel->getYearlyRevenue($_SESSION['seller_id']);
+    $ordersByStatus = $sellerModel->getOrdersByStatus($orders);
+
+    $this->view_seller_page($this->view, [
+      'orders' => $orders,
+      'customers' => $customers,
+      'totalRevenue' => $totalRevenue,
+      'monthlyRevenue' => $monthlyRevenue,
+      'yearlyRevenue' => $yearlyRevenue,
+      'ordersByStatus' => $ordersByStatus,
+    ]);
   }
 }
 

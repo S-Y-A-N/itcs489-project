@@ -2,8 +2,6 @@
 
 namespace Controllers;
 
-use Models\User;
-
 class Index extends \Core\Controller
 {
   private $view = 'seller/index';
@@ -27,7 +25,7 @@ class Index extends \Core\Controller
     $totalRevenue = $sellerModel->getTotalRevenue($_SESSION['seller_id']);
     $monthlyRevenue = $sellerModel->getMonthlyRevenue($_SESSION['seller_id']);
     $yearlyRevenue = $sellerModel->getYearlyRevenue($_SESSION['seller_id']);
-    $ordersByStatus = $sellerModel->getOrdersByStatus($_SESSION['seller_id']);
+    $ordersByStatus = $sellerModel->getOrdersByStatus($orders);
 
     $this->view_seller_page($this->view, [
       'orders' => $orders,
@@ -36,10 +34,6 @@ class Index extends \Core\Controller
       'monthlyRevenue' => $monthlyRevenue,
       'yearlyRevenue' => $yearlyRevenue,
       'ordersByStatus' => $ordersByStatus,
-      // 'newOrders' => $newOrders,
-      // 'holdOrders' => $holdOrders,
-      // 'shippedOrders' => $shippedOrders,
-      // 'closedOrders' => $closedOrders,
     ]);
   }
 }

@@ -32,5 +32,5 @@
       }
     }
   </script>
-  <link rel="stylesheet" href="/css/seller.css">
+  <link rel="stylesheet" href="/css/admin.css">
 </head>
