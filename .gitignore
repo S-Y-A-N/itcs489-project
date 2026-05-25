@@ -1,4 +1,5 @@
 node_modules
+vendor
 .vscode
 style.css
 *.css.map
